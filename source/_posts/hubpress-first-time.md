@@ -7,7 +7,8 @@ tags: [asciidoc, github-pages]
 
 [Markdown][] 或許是因為相對容易上手而被廣泛採用 (GitHub、Stack Overflow 等)，但一方面也因為語法過於簡單的關係，在撰寫技術文件時顯得有些侷限 (聽聽看 [Pro Git 的作者 Scott Chacon 怎麼說][scott-says])，所以我一直以來都偏好使用 [AsciiDoc][]，不過似乎國內的使用者並不多？
 
-**TIP:** 網路上有許多技術文件、書籍，都是用 AsciiDoc 寫的，AsciiDoc 首頁 [Documents written using AsciiDoc][adoc-samples] 一節可以找到更多的應用實例。
+> <i class="fa fa-lightbulb-o fa-3x"></i>
+> 網路上有許多技術文件、書籍，都是用 AsciiDoc 寫的，AsciiDoc 首頁 [Documents written using AsciiDoc][adoc-samples] 一節可以找到更多的應用實例。
 
  [markdown]: http://daringfireball.net/projects/markdown/
  [asciidoc]: http://www.methods.co.nz/asciidoc/
