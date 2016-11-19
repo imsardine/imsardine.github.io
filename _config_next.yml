@@ -33,7 +33,7 @@ canonical: true
 menu:
   home: /
   #categories: /categories
-  #about: /about
+  about: /about
   archives: /archives
   tags: /tags
   #sitemap: /sitemap.xml
@@ -66,8 +66,8 @@ menu_icons:
 
 # Schemes
 #scheme: Muse
-scheme: Mist
-#scheme: Pisces
+#scheme: Mist
+scheme: Pisces
 
 
 # ---------------------------------------------------------------
@@ -127,8 +127,13 @@ font:
 # Social Links
 # Key is the link label showing to end users.
 # Value is the target link (E.g. GitHub: https://github.com/iissnan)
-#social:
+social:
   #LinkLabel: Link
+  GitHub: https://github.com/imsardine
+  Facebook: https://www.facebook.com/jeremy.kao.tw
+  Twitter: https://twitter.com/imsardine
+  LinkedIn: https://www.linkedin.com/in/jeremykao
+  Google+: https://plus.google.com/113911398965423340908
 
 
 # Social Links Icons
@@ -141,14 +146,17 @@ social_icons:
   # Icon Mappings.
   # KeyMapsToSocalItemKey: NameOfTheIconFromFontAwesome
   GitHub: github
+  Facebook: facebook-official
+  LinkedIn: linkedin-square
   Twitter: twitter
+  Google+: google-plus
   Weibo: weibo
 
 
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.jpg
 # in site  directory(source/uploads): /uploads/avatar.jpg
-#avatar:
+avatar: https://en.gravatar.com/userimage/7327382/909030095f272d9b27157d5419d34d50.jpeg
 
 
 # Table Of Contents in the Sidebar
