@@ -12,7 +12,7 @@ tags: [testing, career, test-automation, testability]
 
 先來看 SWE 跟 TE 這兩個角色：
 
- *  Software Engineer (SWE) - 一般認知的 RD::
+ *  Software Engineer (SWE) - 一般認知的 RD
 
     除了開發產品功能與修正 bug 之外，RD/SWE 還得撰寫 unit test，尤其關注 _code quality_。
 
@@ -51,7 +51,7 @@ tags: [testing, career, test-automation, testability]
 >
 > [Google Testing Blog: Covering all your codebases: A conversation with a Software Engineer in Test](http://googletesting.blogspot.tw/2012/08/covering-all-your-codebases.html)
 
---
+---
 
 > The TE or Test Engineer is the exact reverse of the SET. It is a a role that puts testing first and development second. Many Google TEs spend a good deal of their time writing code in the form of **automation scripts** and code that drives usage scenarios and even mimics a user.
 >
