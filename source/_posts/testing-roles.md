@@ -45,7 +45,7 @@ tags: [testing, career, test-automation, testability]
 
 ---
 
-> *So what exactly do SETs do?*
+> **So what exactly do SETs do?**
 >
 > SETs are SWEs who are really into testing. We **help SWEs design and refactor their code so that it is more testable**. We **work with test engineers (TEs) to figure out how to automate difficult test cases**. We also **write harnesses, frameworks and tools to make test automation possible**. SETs tend to have the best understanding of **how everything plays together** (production code, manual tests, automated tests, tools, etc.) and we have to make that information _accessible_ to everyone on the team.
 >
