@@ -1,6 +1,7 @@
 ---
 title: Hello, Hexo!
 date: 2016-11-19 07:29:11
+updated: 2016-11-19 17:21:00
 tags: [hexo, testcorner, markdown, github-pages, travis-ci]
 ---
 
@@ -88,7 +89,7 @@ Hexo 安裝、使用都很簡單。玩了半天後，決定就是它了 (Hugo �
  [tommy-fb]: https://www.facebook.com/tommy351
  [next]: http://theme-next.iissnan.com/
 
-首先就把九月初才剛上線的個人部落格 `imsardine.github.io`，從 HubPress 換成 Hexo，而這就是第一篇貼文，之後再跟大家分享 Hexo 跟 NexT 的學習心得。
+首先就把[九月初才剛上線](/2016/09/03/hubpress-first-time/)的個人部落格 `imsardine.github.io`，從 HubPress 換成 Hexo，而這就是第一篇貼文，之後再跟大家分享 Hexo 跟 NexT 的學習心得。
 
 ## 套用到 Test Corner 上可能的問題
 
