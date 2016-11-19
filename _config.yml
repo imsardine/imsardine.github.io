@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle:
+title: 在電梯裡遇見雙胞胎
+subtitle: 當你開始尋找，你就已經在前往的路上...
 description:
-author: John Doe
-language:
+author: Jeremy Kao
+language: zh-tw
 timezone:
 
 # URL
@@ -63,9 +63,11 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+  repo: git@github.com:imsardine/imsardine.github.io.git
+  branch: master
