@@ -1,5 +1,5 @@
 ---
-title: dmesg 的用法
+title: dmesg 指令的用法
 date: 2016-11-06 20:59:00
 tags: [linux, command]
 ---

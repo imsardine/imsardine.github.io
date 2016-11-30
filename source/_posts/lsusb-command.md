@@ -1,5 +1,5 @@
 ---
-title: lsusb 的用法
+title: lsusb 指令的用法
 date: 2016-11-06 20:41:27
 tags: [linux, command]
 ---
