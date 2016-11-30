@@ -4,19 +4,17 @@ date: 2014-03-19 06:58:56
 tags: [linux, command]
 ---
 
-## 簡介
+    tee [-a] <FILE>
 
 `tee` 的行為很特別，一方面會從 stdin 讀取資料，另一方面又會將資料同時寫到 stdout 跟 `FILE`，就像是 _一分二的轉接頭_。
 
-    tee [-a] <FILE>
+![T 字管](/images/tee.png)
+(圖片來源：[tee (command) - Wikipedia, the free encyclopedia](http://en.wikipedia.org/wiki/Tee_(command))
 
 <!-- more -->
 
 > <i class="fa fa-lightbulb-o fa-3x"></i>
 > 實際上 `tee` 的名稱就是這麼來的，tee 指的就是 "T 字管" 或 "三通管"。
->
-> ![T 字管](/images/tee.png)
-> (圖片來源：[tee (command) - Wikipedia, the free encyclopedia](http://en.wikipedia.org/wiki/Tee_(command))
 
 ## 常見的用法
 
