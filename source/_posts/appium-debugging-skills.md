@@ -10,6 +10,8 @@ tags: [appium, debugging]
 
 要如何查出背後的原因？
 
+<!-- more -->
+
 ## 方法
 
 首先，啟動 Appium Server 時要將 log 寫到外部檔案，並加註時間截記 (本地時間)：
