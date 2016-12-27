@@ -118,7 +118,7 @@ AQA 對外則提供 [REST][] 與 [GRPC][] API 兩種介面，供不同的程式�
 ![AQA Service 架構](/images/gtac-2016-can-you-hear-me/polqa.png)
 (圖片來源：[Google Test Automation Conference][slide])
 
-提供兩組訊號 - 輸入 (Reference/Played-out Signal) 與輸出 (Degraded/Recorded Signal)，利用 POLQA 演算法就能求得一個介於 5 (好) 跟 1 (差) 之間的 [MOS (Mean Opinion Score)][mos] 分數，代表一般人所感知道的話質。
+提供兩組訊號 - 輸入 (Reference/Played-out Signal) 與輸出 (Degraded/Recorded Signal)，利用 POLQA 演算法就能求得一個介於 5 (好) 跟 1 (差) 之間的 [MOS (Mean Opinion Score)][mos] 分數，代表一般人所感知到的話質。
 
  [mos]: https://en.wikipedia.org/wiki/Mean_opinion_score
 
