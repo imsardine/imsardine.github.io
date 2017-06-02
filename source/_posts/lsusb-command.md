@@ -36,7 +36,7 @@ Bus 002 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
          |          |          |         |
     Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 
- 1. 裝置所在的 USB bus 編號 (從 001 開始)；一個 USB bus 可以連接多個裝置，每個裝置有不同的編號 (從 001 開始)。
+ 1. 裝置所在的 USB bus 編號；一個 USB bus 可以連接多個裝置，每個裝置有不同的編號。(裝置編號從 002 開始，001 代表 USB bus 自己)
  2. 裝置在該 USB bus 下的編號 (device number)。
  3. 冒號前後分別是裝置的 vendor ID (製造商) 與 product ID (產品)。
  4. Vendor ID 與 product ID 對應的名稱。例如這裡的 [`1d6b`][1d6b] 代表的是 Linux Foundation，而 [`0002`][1d6b:0002] 則代表 2.0 root hub。
@@ -112,7 +112,13 @@ $ lsusb -t
 /:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/12p, 480M
 ```
 
-不過缺點是看不出裝置名稱，只能透過 `-s` 反查：
+雖然看不出裝置名稱，但還是有些資訊可供識別：
+
+ * `Class` 表示[裝置類型 (device class)][device-class]，例如 `root_hub`、`Hub` (外接 hub)、`Mass Storage` (外接儲存裝置)、`Imaging` (PTP/MTP) 等。
+ * 一個 device 可以有多個 interface (`If <NUM>`)，例如手機通常提供多個 interface，每個都有不同的 device class。
+ * 每一行最後面的數字 (例如上面的 12M、480M)，代表傳輸速度，USB 1.1、2.0、3.0 分別是 12M、480M 跟 5000M。
+
+至於裝置名稱，就只能透過 `-s` 反查：
 
     lsusb [-v] -s <BUS_NUMBER>:<DEVICE_NUMBER>
 
@@ -122,6 +128,8 @@ $ lsusb -t
 $ lsusb -s 2:2
 Bus 002 Device 002: ID 80ee:0021 VirtualBox USB Tablet
 ```
+
+ [device-class]: https://en.wikipedia.org/wiki/USB#Device_classes
 
 更多關於 Linux 的學習心得，請參考 [Linux 學習筆記](https://jeremykao.gitbooks.io/learning-linux/)。
 
