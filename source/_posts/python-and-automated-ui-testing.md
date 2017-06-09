@@ -154,7 +154,7 @@ if __name__ == '__main__':
 
 基本上跟 web 搭配 Selenium Server 的寫法差不多，一樣採用 Remote WebDriver (`selenium.webdriver.Remote`)，只不過 server 是指向 Appium server。
 
-除非要使 Appium 在標準 Selenium 上擴充的功能，才需要額外安裝 [`Appium-Python-Client`][appium-python-client] 套件，並改採 `from appium import webdriver`。
+除非要使用 Appium 在標準 Selenium 上擴充的功能，才需要額外安裝 [`Appium-Python-Client`][appium-python-client] 套件，並改採 `from appium import webdriver`。
 
  [appium]: http://appium.io/
  [appium-python-client]: https://github.com/appium/python-client
