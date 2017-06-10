@@ -5,7 +5,7 @@ tags: [python, ui-testing, test-automation, testing-pyramid, e2e-testing,
        selenium, webdriver, appium, page-objects]
 ---
 
-因緣際會下，今年有機會在 [PyCon 2017][pycon-2017] 公司的攤位上進行短講，雖然近期的工作跟 Android 單元測試 (unit testing) 比較相關，但總不能到 Python 的場子分享 Android :P
+因緣際會下，今年有機會在 [PyCon 2017][pycon-2017] 進行短講，雖然近期的工作跟 Android 單元測試 (unit testing) 比較相關，但在 Python 的場子分享 Android 似乎不太好 :P
 
 恰巧幾天前從 Google I/O 2017 的一場演說 [Test-Driven Development on Android with the Android Testing Support Library][android-tdd-with-atsl] 得到不少啟發，尤其整個 TDD workflow 是由 UI testing 驅動的做法，想說就從 Python 的角度切入，看看不同平台的 UI testing 是否有 Python 可以發揮的空間。
 
