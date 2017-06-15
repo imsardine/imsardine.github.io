@@ -11,7 +11,7 @@ tags: [python, ui-testing, test-automation, testing-pyramid, e2e-testing,
 
 先從 UI testing 與 E2E testing 的關係開始說起...
 
- [android-tdd-with-atsl]: https://www.youtube.com/watch?v=pK7W5npkhho
+ [android-tdd-with-atsl]: /2017/06/15/io17-tdd-android-with-atsl/
 
 [pycon-2017]: https://tw.pycon.org/2017/
 
