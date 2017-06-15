@@ -1,6 +1,6 @@
 ---
 title: "Test-Driven Development on Android with the Android Testing Support Library (Google I/O '17)"
-date: 2017-06-15 12:30:00
+date: 2017-06-04 00:00:00
 tags: [android, tdd, test-automation, testing-pyramid, espresso, robolectric, e2e-testing,
        hermetic-testing, unit-testing, integration-testing]
 ---
