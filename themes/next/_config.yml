@@ -303,7 +303,7 @@ mathjax:
 
 # Disqus
 disqus:
-  enable: false
+  enable: true
   shortname: imsardine-github-io
   count: true
 
