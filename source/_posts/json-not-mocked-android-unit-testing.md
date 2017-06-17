@@ -102,7 +102,7 @@ dependencies {
 
 因此第 3 種方法也並非那麼完美，是不是會衍生其他的問題還要再觀察。雖然無法理解 `org.json.*` 為什麼會是 Andriod framework 的一部份，但還好其中也只有 `org.json.*` 比較常在 production code 用到，否則這類問題還真有點惱人。
 
- [so-discussion]: https://stackoverflow.com/questions/29402155/
+ [so-discussion]: https://stackoverflow.com/a/30759769/1691598
 
 Happy Testing :)
 
