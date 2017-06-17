@@ -1,5 +1,5 @@
 ---
-title: "[Android] Local unit test 與 JSONObject not mocked"
+title: "Local unit test 與 JSONObject not mocked"
 date: 2017-06-16 16:18:49
 tags: [android, unit-testing]
 ---
