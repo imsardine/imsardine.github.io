@@ -36,7 +36,7 @@ onView(withId(R.id.recycler)).perform(scrollToPosition(11))
     .check(matches(not(isChecked())));
 ```
 
-很不幸地，其中：
+好像還差那麼一點，其中：
 
  * 取消 Item 011 的核取方塊 - `actionOnItemAtPosition(10, click())` 的寫法會按到整個 item (`R.id.item`) 的中心點，而非核取方塊 (`R.id.item_checkbox`)。
  * 檢查 Item 012 的核取方塊沒有勾選 - 雖然 Item 12 會因為 `scrollToPosition(11)` 而捲進畫面，但 `check(matches(isChecked()))` 檢查的是 `onView(withId(R.id.recycler))` 所表示的整個 `RecyclerView`，而非 Item 12 下的核取方塊。
@@ -51,10 +51,14 @@ onView(withId(R.id.recycler)).perform(scrollToPosition(11))
 
 ```java
 // 取消 Item 011 的核取方塊
+// onView(withId(R.id.recycler)).perform(
+//     actionOnItemAtPosition(10, click()));
 onView(withId(R.id.recycler)).perform(
     actionOnItemAtPosition(10, onChildView(withId(R.id.item_checkbox), click())));
 
 // 檢查 Item 012 的核取方塊沒有勾選
+// onView(withId(R.id.recycler)).perform(scrollToPosition(11))
+//     .check(matches(not(isChecked())));
 onView(withId(R.id.recycler)).perform(scrollToPosition(11))
     .check(itemAtPosition(11).onChildView(withId(R.id.item_checkbox)).matches(not(isChecked())));
 ```
@@ -66,6 +70,7 @@ onView(withId(R.id.recycler)).perform(scrollToPosition(11))
 
 完整的實作可以在[這裡][gist]找到 (Gist)，這裡就不細談，而是把重點擺在為什麼 API 要以這種方式擴充，背後有什麼考量...
 
+ [recyclerviewactions]: https://developer.android.com/reference/android/support/test/espresso/contrib/RecyclerViewActions.html
  [viewaction]: https://developer.android.com/reference/android/support/test/espresso/ViewAction.html
  [viewassertion]: https://developer.android.com/reference/android/support/test/espresso/ViewAssertion.html
  [gist]: https://gist.github.com/imsardine/c31dd61b3d97710f0d6828f1aedc9633
