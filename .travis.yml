@@ -1,0 +1,22 @@
+language: node_js
+node_js: stable
+branches:
+  only:
+  - source
+cache:
+  directories:
+  - node_modules
+before_install:
+- npm install -g hexo-cli
+install:
+- npm install
+script:
+- hexo generate
+deploy:
+  provider: pages
+  github-token: $GITHUB_TOKEN
+  skip-cleanup: true
+  local-dir: public
+  target-branch: master
+  on:
+    branch: source
