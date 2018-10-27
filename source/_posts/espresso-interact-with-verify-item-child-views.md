@@ -33,19 +33,19 @@ onView(withId(R.id.recycler)).perform(
 
 // 檢查 Item 012 的核取方塊沒有勾選？
 onView(withId(R.id.recycler)).perform(scrollToPosition(11))
-    .check(matches(not(isChecked())));
+    .check(matches(isNotChecked()));
 ```
 
 好像還差那麼一點，其中：
 
  * 取消 Item 011 的核取方塊 - `actionOnItemAtPosition(10, click())` 的寫法會按到整個 item (`R.id.item`) 的中心點，而非核取方塊 (`R.id.item_checkbox`)。
- * 檢查 Item 012 的核取方塊沒有勾選 - 雖然 Item 12 會因為 `scrollToPosition(11)` 而捲進畫面，但 `check(matches(isChecked()))` 檢查的是 `onView(withId(R.id.recycler))` 所表示的整個 `RecyclerView`，而非 Item 12 下的核取方塊。
+ * 檢查 Item 012 的核取方塊沒有勾選 - 雖然 Item 12 會因為 `scrollToPosition(11)` 而捲進畫面，但 `check(matches(isNotChecked()))` 檢查的是 `onView(withId(R.id.recycler))` 所表示的整個 `RecyclerView`，而非 Item 12 下的核取方塊。
 
 問題在於，目前 `RecyclerViewActions` 只能操作 item 本身，不能操作 item 內部的組成，而在檢查 item 這一塊則完全沒有著墨，更不用提如何檢查 item 的內部組成了。
 
 ## 解決方案
 
-由於 `RecyclerViewActions` 將 item 捲進畫面的部份處理得很好，加上開發人員也習慣用它來處理 `RecyclerView`，所以我傾向朝 **擴充現有 API** 的方向來解決問題，而非創造一組全新的 API，這樣可以減少學習及後續溝通的成本。
+由於 `RecyclerViewActions` 將 item 捲進畫面的部份處理得很好，加上開發人員也習慣用它來處理 `RecyclerView`，所以我傾向朝 **不違反 Espresso 設計原則，擴充現有 API** 的方向來解決問題，而非創造一組全新的 API，這樣可以減少學習及後續溝通的成本。
 
 將 API 的可讀性也一併考量進來，理想上 test code 會像是：
 
@@ -58,15 +58,28 @@ onView(withId(R.id.recycler)).perform(
 
 // 檢查 Item 012 的核取方塊沒有勾選
 // onView(withId(R.id.recycler)).perform(scrollToPosition(11))
-//     .check(matches(not(isChecked())));
+//     .check(matches(isNotChecked()));
 onView(withId(R.id.recycler)).perform(scrollToPosition(11))
-    .check(itemAtPosition(11).onChildView(withId(R.id.item_checkbox)).matches(not(isChecked())));
+    .check(itemAtPosition(11).onChildView(withId(R.id.item_checkbox)).matches(isNotChecked()));
 ```
 
 其中：
 
  * `onChildView(Matcher<View> childMatcher, ViewAction viewAction)` 實作 [`ViewAction`][viewaction]，擴充了現有 `RecyclerViewActions.actionOn*()` 的用法，將原先作用在整個 item 的 `viewAction`，轉移到符合 `childMatcher` 的 child view。
  * `itemAtPosition(int position).onChildView(Matcher<View> childMatcher).matches(Matcher<View> viewMatcher)` 實作 [`ViewAssertion`][viewassertion]，擴充了現有的 `ViewInteraction.check()`，將原先作用在整個 `RecyclerView` 的檢查 `viewMatcher`，轉移到特定 item 下的符合 `childMatcher` 的 child view；當然，若只寫 `itemAtPosition(position)` 則會作用在特定的 item。
+
+另外，`perform(scrollToPosition(11))` 與 `check(itemAtPosition(11)...)` 重複描述 item 位置的部份似乎有點多餘？那是因為 `perform()` 與 `check()` 的對象都是 `onView(with(R.id.recycler))` 所代表的 `RecyclerView` - 可以視為一個整體，也可以視為許多 item 的組成，將某個 item 捲進畫面，有可能是為了檢查 `RecyclerView` 其他部份的變化。若想要少寫一些程式碼，倒是可以建立一個 helper method 把這些邏輯封裝起來，同時又保有底層 API 的彈性。例如：
+
+```java
+public static void checkRecyclerItemAtPosition(int recyclerId,
+        int position, int childId, Matcher<View> viewMatcher) {
+    onView(withId(recyclerId)).perform(scrollToPosition(position))
+        .check(itemAtPosition(position).onChildView(withId(childId)).matches(viewMatcher))
+}
+
+// 檢查 Item 012 的核取方塊沒有勾選
+checkRecyclerItemAtPosition(R.id.recycler, 11, R.id.item_checkbox, isNotChecked());
+```
 
 完整的實作可以在[這裡][gist]找到 (Gist)，這裡就不細談，而是把重點擺在為什麼 API 要以這種方式擴充，背後有什麼考量...
 
@@ -87,7 +100,7 @@ onView(withId(R.id.recycler)).perform(
 // 檢查 Item 012 的核取方塊沒有勾選
 onView(withId(R.id.recycler)).perform(scrollToPosition(11));
 onView(withRecyclerView(R.id.recycler_view).atPositionOnView(11, R.id.item_checkbox))
-    .check(matches(not(isChecked())));
+    .check(matches(isNotChecked()));
 ```
 
 主要的差別在於：
@@ -103,7 +116,7 @@ onView(withRecyclerView(R.id.recycler_view).atPositionOnView(11, R.id.item_check
 ```java
 // 檢查 Item 012 的核取方塊沒有勾選
 onView(withId(R.id.recycler)).perform(actionOnItemAtPosition(11,
-    checkItem(withId(R.id.item_checkbox), matches(not(isChecked())))));
+    checkItem(withId(R.id.item_checkbox), matches(isNotChecked()))));
 ```
 
 當然，這在技術上是可行的，但...
