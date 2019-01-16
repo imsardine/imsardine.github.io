@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /dev-notes/
+Disallow: /life-notes/
