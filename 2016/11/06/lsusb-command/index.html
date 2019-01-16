@@ -1,0 +1,870 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-tw">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="SuaxtfLjU_TwfBADxP25lQkVUqcoR0VmJr_xc95-fFc" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="linux,command," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="lsusb 可以列出連接的 USB 裝置。 lsusb [-v] 例如： 1234$ lsusbBus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hubBus 002 Device 002: ID 80ee:0021 VirtualBox USB TabletBus 002 Device 001: ID 1d6b:0001 Lin">
+<meta name="keywords" content="linux,command">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lsusb 指令的用法">
+<meta property="og:url" content="http://imsardine.github.io/2016/11/06/lsusb-command/index.html">
+<meta property="og:site_name" content="在電梯裡遇見雙胞胎">
+<meta property="og:description" content="lsusb 可以列出連接的 USB 裝置。 lsusb [-v] 例如： 1234$ lsusbBus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hubBus 002 Device 002: ID 80ee:0021 VirtualBox USB TabletBus 002 Device 001: ID 1d6b:0001 Lin">
+<meta property="og:updated_time" content="2019-01-16T17:24:40.413Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="lsusb 指令的用法">
+<meta name="twitter:description" content="lsusb 可以列出連接的 USB 裝置。 lsusb [-v] 例如： 1234$ lsusbBus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hubBus 002 Device 002: ID 80ee:0021 VirtualBox USB TabletBus 002 Device 001: ID 1d6b:0001 Lin">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://imsardine.github.io/2016/11/06/lsusb-command/"/>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4844668015082917",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+  <title> lsusb 指令的用法 | 在電梯裡遇見雙胞胎 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">在電梯裡遇見雙胞胎</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">當你開始尋找，就已經在前往的路上</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://imsardine.github.io/2016/11/06/lsusb-command/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeremy Kao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://en.gravatar.com/userimage/7327382/909030095f272d9b27157d5419d34d50.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="在電梯裡遇見雙胞胎">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                lsusb 指令的用法
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2016-11-06T20:41:27+00:00">
+                2016-11-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/11/06/lsusb-command/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/11/06/lsusb-command/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>lsusb</code> 可以列出連接的 USB 裝置。</p>
+<pre><code>lsusb [-v]
+</code></pre><p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ lsusb</div><div class="line">Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub</div><div class="line">Bus 002 Device 002: ID 80ee:0021 VirtualBox USB Tablet</div><div class="line">Bus 002 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<blockquote>
+<p><i class="fa fa-lightbulb-o fa-3x"></i><br>OS X 沒有 <code>lsusb</code> 指令，可以用 Homebrew 安裝 <a href="https://github.com/jlhonora/lsusb" target="_blank" rel="external">jlhonora/lsusb</a> 進行擴充：</p>
+<pre><code>brew update &amp;&amp; brew tap jlhonora/lsusb &amp;&amp; brew install lsusb
+</code></pre><p>用法大致上跟 Linux 的版本相同 (背後利用 OS X 內建的 <code>system_profiler SPUSBDataType</code>)，細節可以參考 <code>man lsusb</code></p>
+</blockquote>
+<h2 id="解讀資訊"><a href="#解讀資訊" class="headerlink" title="解讀資訊"></a>解讀資訊</h2><p>每一行都代表一個 USB 裝置，包含 4 項資訊：</p>
+<pre><code>    &lt;1&gt;        &lt;2&gt;        &lt;3&gt;       &lt;4&gt;
+     |          |          |         |
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+</code></pre><ol>
+<li>裝置所在的 USB bus 編號；一個 USB bus 可以連接多個裝置，每個裝置有不同的編號。(裝置編號從 002 開始，001 代表 USB bus 自己)</li>
+<li>裝置在該 USB bus 下的編號 (device number)。</li>
+<li>冒號前後分別是裝置的 vendor ID (製造商) 與 product ID (產品)。</li>
+<li>Vendor ID 與 product ID 對應的名稱。例如這裡的 <a href="https://usb-ids.gowdy.us/read/UD/1d6b" target="_blank" rel="external"><code>1d6b</code></a> 代表的是 Linux Foundation，而 <a href="https://usb-ids.gowdy.us/read/UD/1d6b/0002" target="_blank" rel="external"><code>0002</code></a> 則代表 2.0 root hub。</li>
+</ol>
+<blockquote>
+<p><i class="fa fa-lightbulb-o fa-3x"></i><br>Vendor ID 及 product ID 所代表的名稱，可以到 <a href="http://www.linux-usb.org/usb-ids.html" target="_blank" rel="external">The USB ID Repository</a> 查詢。</p>
+</blockquote>
+<p>在 Linux，每一個 USB bus 都用一個虛擬裝置 root hub 來表示，它的 device number 固定是 001，vendor ID 固定是 <code>1d6b</code> (Linux Foundation)，且 product ID 本身就大概能看出 USB bus 的版本：</p>
+<ul>
+<li><code>0001</code> - 1.1 root hub 即 USB 1.1, Full Speed (12 Mbit/s)</li>
+<li><code>0002</code> - 2.0 root hub 即 USB 2.0, High Speed (480 Mbit/s)</li>
+<li><code>0003</code> - 3.0 root hub 即 USB 3.0, SuperSpeed (5 Gbit/s)</li>
+</ul>
+<blockquote>
+<p><i class="fa fa-lightbulb-o fa-3x"></i><br>由於 root hub 是虛擬裝置，搭配下面提到的 <code>-t</code> 比較有用，所以平常可以搭配 <code>grep</code> 將它們濾除。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; $ lsusb | grep -v &apos;root hub&apos;</div><div class="line">&gt; Bus 002 Device 002: ID 80ee:0021 VirtualBox USB Tablet</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="裝置詳細資訊"><a href="#裝置詳細資訊" class="headerlink" title="裝置詳細資訊"></a>裝置詳細資訊</h2><p>加 <code>-v</code> (<code>--verbose</code>) 可以顯示裝置的細部資訊，通常會搭配 <code>-s</code> 或 <code>-d</code> 指定裝置：</p>
+<pre><code>lsusb -v -s &lt;BUS_NUMBER&gt;:&lt;DEVICE_NUMBER&gt;
+lsusb -v -d &lt;VENDOR_ID&gt;:&lt;DEVICE_ID&gt;
+</code></pre><p>以上面的 VirtualBox USB Tablet 為例，可以用 <code>-s 2:2</code> 或 <code>-d 80ee:0021</code> 指定，效果是一樣的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">$ lsusb -v -d 80ee:0021</div><div class="line"></div><div class="line">Bus 002 Device 002: ID 80ee:0021 VirtualBox USB Tablet</div><div class="line">Couldn&apos;t open device, some information will be missing</div><div class="line">Device Descriptor:</div><div class="line">  bLength                18</div><div class="line">  bDescriptorType         1</div><div class="line">  bcdUSB               1.10</div><div class="line">  bDeviceClass            0 (Defined at Interface level)</div><div class="line">  bDeviceSubClass         0</div><div class="line">  bDeviceProtocol         0</div><div class="line">  bMaxPacketSize0         8</div><div class="line">  idVendor           0x80ee VirtualBox</div><div class="line">  idProduct          0x0021 USB Tablet</div><div class="line">  bcdDevice            1.00</div><div class="line">  iManufacturer           1</div><div class="line">  iProduct                3</div><div class="line">  iSerial                 0</div><div class="line">  bNumConfigurations      1</div><div class="line">  Configuration Descriptor:</div><div class="line">    bLength                 9</div><div class="line">    bDescriptorType         2 </div><div class="line">...</div></pre></td></tr></table></figure>
+<h2 id="階層關係"><a href="#階層關係" class="headerlink" title="階層關係"></a>階層關係</h2><p>若想要看出 USB bus 跟裝置間的階層關係 (hierarchy)，可以搭配 <code>-t</code> 使用：</p>
+<pre><code>lsusb -t
+</code></pre><p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ lsusb -t</div><div class="line">/:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=ohci-pci/12p, 12M</div><div class="line">    |__ Port 1: Dev 2, If 0, Class=Human Interface Device, Driver=usbhid, 12M</div><div class="line">/:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/12p, 480M</div></pre></td></tr></table></figure>
+<p>雖然看不出裝置名稱，但還是有些資訊可供識別：</p>
+<ul>
+<li><code>Class</code> 表示<a href="https://en.wikipedia.org/wiki/USB#Device_classes" target="_blank" rel="external">裝置類型 (device class)</a>，例如 <code>root_hub</code>、<code>Hub</code> (外接 hub)、<code>Mass Storage</code> (外接儲存裝置)、<code>Imaging</code> (PTP/MTP) 等。</li>
+<li>一個 device 可以有多個 interface (<code>If &lt;NUM&gt;</code>)，例如手機通常提供多個 interface，每個都有不同的 device class。</li>
+<li>每一行最後面的數字 (例如上面的 12M、480M)，代表傳輸速度，USB 1.1、2.0、3.0 分別是 12M、480M 跟 5000M。</li>
+</ul>
+<p>至於裝置名稱，就只能透過 <code>-s</code> 反查：</p>
+<pre><code>lsusb [-v] -s &lt;BUS_NUMBER&gt;:&lt;DEVICE_NUMBER&gt;
+</code></pre><p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ lsusb -s 2:2</div><div class="line">Bus 002 Device 002: ID 80ee:0021 VirtualBox USB Tablet</div></pre></td></tr></table></figure>
+<p>更多關於 Linux 的學習心得，請參考 <a href="https://jeremykao.gitbooks.io/learning-linux/" target="_blank" rel="external">Linux 學習筆記</a>。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+            <a href="/tags/command/" rel="tag"># command</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/03/hubpress-first-time/" rel="next" title="HubPress 初體驗">
+                <i class="fa fa-chevron-left"></i> HubPress 初體驗
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/06/dmesg-command/" rel="prev" title="dmesg 指令的用法">
+                dmesg 指令的用法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5847635a985a11dc" async = "async" ></script>
+</div>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://en.gravatar.com/userimage/7327382/909030095f272d9b27157d5419d34d50.jpeg"
+               alt="Jeremy Kao" />
+          <p class="site-author-name" itemprop="name">Jeremy Kao</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最恐怖的事情就是－比你優秀的人，比你還努力！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">文章</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/imsardine" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/jeremy.kao.tw" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook-official"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/imsardine" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/jeremykao" target="_blank" title="LinkedIn">
+                  
+                    <i class="fa fa-fw fa-linkedin-square"></i>
+                  
+                  LinkedIn
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/113911398965423340908" target="_blank" title="Google+">
+                  
+                    <i class="fa fa-fw fa-google-plus"></i>
+                  
+                  Google+
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://imsardine.github.io/dev-notes/" target="_blank" title="DevNotes">
+                  
+                    <i class="fa fa-fw fa-keyboard"></i>
+                  
+                  DevNotes
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://imsardine.github.io/life-notes/" target="_blank" title="LifeNotes">
+                  
+                    <i class="fa fa-fw fa-pagelines"></i>
+                  
+                  LifeNotes
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#解讀資訊"><span class="nav-number">1.</span> <span class="nav-text">解讀資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#裝置詳細資訊"><span class="nav-number">2.</span> <span class="nav-text">裝置詳細資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#階層關係"><span class="nav-number">3.</span> <span class="nav-text">階層關係</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeremy Kao</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://imsardine-github-io.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://imsardine.github.io/2016/11/06/lsusb-command/';
+          this.page.identifier = '2016/11/06/lsusb-command/';
+          this.page.title = 'lsusb 指令的用法';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://imsardine-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

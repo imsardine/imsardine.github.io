@@ -1,0 +1,865 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-tw">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="SuaxtfLjU_TwfBADxP25lQkVUqcoR0VmJr_xc95-fFc" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="hexo,testcorner,markdown,github-pages,travis-ci," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="大概快兩個月前，開始萌生要為 Test Corner 架設一個專屬部落格的念頭，當時的想法是採用 GitHub Pages 並以 testcorner.github.io 做為入口。 用 .github.io 感覺就是潮潮的 (其實是為了跟 Test Corner @ GitHub 接軌)，當然有 testcorner.io 更好，只是買 domain 又是一筆費用；目前 Test Corner">
+<meta name="keywords" content="hexo,testcorner,markdown,github-pages,travis-ci">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hello, Hexo!">
+<meta property="og:url" content="http://imsardine.github.io/2016/11/19/hello-hexo/index.html">
+<meta property="og:site_name" content="在電梯裡遇見雙胞胎">
+<meta property="og:description" content="大概快兩個月前，開始萌生要為 Test Corner 架設一個專屬部落格的念頭，當時的想法是採用 GitHub Pages 並以 testcorner.github.io 做為入口。 用 .github.io 感覺就是潮潮的 (其實是為了跟 Test Corner @ GitHub 接軌)，當然有 testcorner.io 更好，只是買 domain 又是一筆費用；目前 Test Corner">
+<meta property="og:image" content="http://imsardine.github.io/images/hello-hexo/staticgen-raning.png">
+<meta property="og:updated_time" content="2016-11-19T17:21:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hello, Hexo!">
+<meta name="twitter:description" content="大概快兩個月前，開始萌生要為 Test Corner 架設一個專屬部落格的念頭，當時的想法是採用 GitHub Pages 並以 testcorner.github.io 做為入口。 用 .github.io 感覺就是潮潮的 (其實是為了跟 Test Corner @ GitHub 接軌)，當然有 testcorner.io 更好，只是買 domain 又是一筆費用；目前 Test Corner">
+<meta name="twitter:image" content="http://imsardine.github.io/images/hello-hexo/staticgen-raning.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://imsardine.github.io/2016/11/19/hello-hexo/"/>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4844668015082917",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+  <title> Hello, Hexo! | 在電梯裡遇見雙胞胎 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">在電梯裡遇見雙胞胎</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">當你開始尋找，就已經在前往的路上</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://imsardine.github.io/2016/11/19/hello-hexo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeremy Kao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://en.gravatar.com/userimage/7327382/909030095f272d9b27157d5419d34d50.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="在電梯裡遇見雙胞胎">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Hello, Hexo!
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2016-11-19T07:29:11+00:00">
+                2016-11-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/11/19/hello-hexo/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/11/19/hello-hexo/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>大概快兩個月前，開始萌生要為 <a href="https://www.facebook.com/groups/test.corner/" target="_blank" rel="external">Test Corner</a> 架設一個專屬部落格的念頭，當時的想法是採用 <a href="https://pages.github.com/" target="_blank" rel="external">GitHub Pages</a> 並以 <code>testcorner.github.io</code> 做為入口。</p>
+<p>用 <code>.github.io</code> 感覺就是潮潮的 (其實是為了跟 <a href="https://github.com/testcorner" target="_blank" rel="external">Test Corner @ GitHub</a> 接軌)，當然有 <code>testcorner.io</code> 更好，只是買 domain 又是一筆費用；目前 Test Corner 完全沒有編列任何預算，事實上是一毛錢都沒有，所有的活動都是靠大家熱情贊助，只好想辦法繼續承襲這個優良的傳統 &gt;_&lt;</p>
+<p>直到上個星期，由於 12/01 <a href="http://testcorner.kktix.cc/events/testcorner7" target="_blank" rel="external">Test Corner #7</a> 聚會的時間快到了，希望開始為活動留下一點記錄，才開始逼自己要採取一些行動；過去的活動都只有影片、照片分別放在 <a href="https://www.youtube.com/channel/UCv3jyotTJNKhkDyvB6_fvIA" target="_blank" rel="external">YouTube</a> 跟 <a href="https://www.flickr.com/photos/testcorner/" target="_blank" rel="external">Flickr</a>，沒有再花時間整理，實在有點可惜。</p>
+<p>就這樣，在路上遇見了 <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a> …</p>
+<a id="more"></a>
+<h2 id="挑選平台"><a href="#挑選平台" class="headerlink" title="挑選平台"></a>挑選平台</h2><p>首先就是挑選平台問題，主要有幾點考量：</p>
+<ul>
+<li>可以自訂或選擇樣板。</li>
+<li>可以多人編輯，不需要共用一個帳號。</li>
+<li>可以用 Markdown 撰寫、離線編輯 (加分)。</li>
+<li>可以分析流量，例如 <a href="https://analytics.google.com/" target="_blank" rel="external">Google Analytics (GA)</a>。</li>
+<li>可以評論，例如 <a href="https://disqus.com/" target="_blank" rel="external">Disqus</a></li>
+<li>可以分享，例如 <a href="http://www.addthis.com/" target="_blank" rel="external">AddThis</a></li>
+</ul>
+<p>由於之前都是用 <a href="https://wordpress.com/" target="_blank" rel="external">WordPress</a>，上述 GA、Disqus、AddThis 也都支援，在<a href="https://kkboxsqa.wordpress.com/" target="_blank" rel="external">科科和測試</a>上多人編輯的體驗也還算不錯，再加上<a href="https://en.support.wordpress.com/markdown/" target="_blank" rel="external">內建支援 Markdown</a>，自然就成為我個人的首選。不料在開始建立站台時，才發現 <code>testcorner.wordpress.com</code> 已經被他人佔用，嘔的是<a href="https://testcorner.wordpress.com/" target="_blank" rel="external">上面只有一篇貼文，而且時間還是 2007-07</a> <del>(一種佔著茅坑不拉屎的概念)</del>。</p>
+<p>沒辦法，就是無法接受諸如 <code>testcornerblog.wordpress.com</code>、<code>testcorner2.wordpress.com</code> 這類的建議。若要自訂 domain，除了購買 <code>testcorner.io</code>，WordPress 也要昇級到 Personal Plan 以上，這些都不是一次性的費用… 所以開始尋求其他的可能性。</p>
+<p>11/15 在 FB 社團<a href="https://www.facebook.com/groups/test.corner/permalink/1439552302729341/" target="_blank" rel="external">蒐集大家的想法</a>：</p>
+<blockquote>
+<p>想幫 Test Corner 建個 blog，可以記錄聚會的點滴，或許會發展出一些專欄也說不定 …</p>
+<p>結果發現 testcorner.wordpress.com 已經被佔用 (怎麼搶過來?)，不知道大家有什麼點子？ WordPress 自己推薦 testcornerblog.wordpress.com 覺得不太優？</p>
+<p>補充一下，會選 WordPress 是因為它直接支援 Markdown 寫作，還是有更推薦的平台？ </p>
+</blockquote>
+<p>首先謝謝 <a href="https://www.facebook.com/york.wu" target="_blank" rel="external">York Wu</a> 提議 <a href="https://medium.com/" target="_blank" rel="external">Medium</a>，很久之前就想多瞭解一點 Medium，因為有越來越多的人透過它來<em>分享自己的想法</em>。</p>
+<p>不過在看了一些 Medium 跟 WordPress 的比較之後，才知道兩者的定位不太一樣，並不適合拿來比較，前者重在讓所有的 writer 形成一個 community，讓 writer 可以找到其他 writer (discoverability)，因此幾乎不提供客制化 (customization) ，不能更換樣板就是最顯而易見的例子，而後者更適合用來經營品牌 (branding)，由於目前的想法比較偏 site/blog，所以 Medium 並不適合我們的需求。</p>
+<blockquote>
+<p>Neither WordPress or Medium are accurate replacements for the other. WordPress is better for a custom site/blog and the latter better for content discovery amongst other writers.</p>
+<p><a href="https://wpengine.com/blog/wordpress-vs-medium-infographic/" target="_blank" rel="external">CMS Comparison: WordPress Vs. Medium [Infographic] WP Engine Blog</a></p>
+</blockquote>
+<p>而 <a href="https://www.facebook.com/dca.hsu" target="_blank" rel="external">Dca Hsu</a> 則提議 GitHub Pages + Hexo，在這之前 GitHub Pages 我只跟 <a href="https://jekyllrb.com/" target="_blank" rel="external">Jekyll</a> (有不愉快的架設經驗，效能好像也令人垢病？)、<a href="http://hubpress.io/" target="_blank" rel="external">HubPress</a> (用 <a href="http://www.methods.co.nz/asciidoc/" target="_blank" rel="external">AsciiDoc</a> 撰寫) 搭配使用過。</p>
+<h2 id="遇見-Hexo"><a href="#遇見-Hexo" class="headerlink" title="遇見 Hexo!"></a>遇見 Hexo!</h2><p>這是我第一次聽到 Hexo，看了一下 <a href="https://www.staticgen.com/" target="_blank" rel="external">StaticGen</a> 的排行，Hexo 受歡迎的程度跟 <a href="https://github.com/spf13" target="_blank" rel="external">spf13</a> 開發的 <a href="http://gohugo.io/" target="_blank" rel="external">Hugo</a> 不相上下。</p>
+<p><img src="/images/hello-hexo/staticgen-raning.png" alt="Top 4 - StaticGen"></p>
+<p>一開始發現，可供選用的<a href="https://hexo.io/themes/" target="_blank" rel="external">主題還真不少</a>，而且多數的範例都有中文，這著實引起了我的好奇心，這才知道這個專案其實是台灣人 <a href="https://zespia.tw/" target="_blank" rel="external">Tommy Chen</a> (陳嘉輝) 主導的，在 <a href="https://github.com/hexojs/hexo" target="_blank" rel="external">GitHub</a> 上可以得到上萬個星星、網路上的討論度極高 (包括華人地區)，當然要來試試。</p>
+<p>Hexo 安裝、使用都很簡單。玩了半天後，決定就是它了 (Hugo 之後有時間再來研究吧)，尤其是找到 <a href="http://theme-next.iissnan.com/" target="_blank" rel="external">NexT</a> 這個超威的主題之後。</p>
+<p>首先就把<a href="/2016/09/03/hubpress-first-time/">九月初才剛上線</a>的個人部落格 <code>imsardine.github.io</code>，從 HubPress 換成 Hexo，而這就是第一篇貼文，之後再跟大家分享 Hexo 跟 NexT 的學習心得。</p>
+<h2 id="套用到-Test-Corner-上可能的問題"><a href="#套用到-Test-Corner-上可能的問題" class="headerlink" title="套用到 Test Corner 上可能的問題"></a>套用到 Test Corner 上可能的問題</h2><p>試想幾個多人參與編輯的情況，可能會遇到幾個問題：</p>
+<ul>
+<li>NexT 主題不支援顯示文章的作者。</li>
+<li>不見得每個人都熟悉 Hexo 的安裝跟使用，可以整合 <a href="https://travis-ci.org/" target="_blank" rel="external">Travis CI</a>，將網站發佈的流程自動化。</li>
+<li>之後得建立一套流程，將 <code>master</code> branch 鎖定，所有的異動都要另開 feature/topic branch，然後走 pull request (PR)，另外 <code>gh-pages</code> branch 也只有少數人 (例如 Travis CI) 可以直接寫入。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hexo/" rel="tag"># hexo</a>
+          
+            <a href="/tags/testcorner/" rel="tag"># testcorner</a>
+          
+            <a href="/tags/markdown/" rel="tag"># markdown</a>
+          
+            <a href="/tags/github-pages/" rel="tag"># github-pages</a>
+          
+            <a href="/tags/travis-ci/" rel="tag"># travis-ci</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/06/dmesg-command/" rel="next" title="dmesg 指令的用法">
+                <i class="fa fa-chevron-left"></i> dmesg 指令的用法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/22/gtac-2016-can-you-hear-me/" rel="prev" title="“Can you hear me?” - Surviving Audio Quality Testing">
+                “Can you hear me?” - Surviving Audio Quality Testing <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5847635a985a11dc" async = "async" ></script>
+</div>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://en.gravatar.com/userimage/7327382/909030095f272d9b27157d5419d34d50.jpeg"
+               alt="Jeremy Kao" />
+          <p class="site-author-name" itemprop="name">Jeremy Kao</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最恐怖的事情就是－比你優秀的人，比你還努力！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">文章</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/imsardine" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/jeremy.kao.tw" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook-official"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/imsardine" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/jeremykao" target="_blank" title="LinkedIn">
+                  
+                    <i class="fa fa-fw fa-linkedin-square"></i>
+                  
+                  LinkedIn
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/113911398965423340908" target="_blank" title="Google+">
+                  
+                    <i class="fa fa-fw fa-google-plus"></i>
+                  
+                  Google+
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://imsardine.github.io/dev-notes/" target="_blank" title="DevNotes">
+                  
+                    <i class="fa fa-fw fa-keyboard"></i>
+                  
+                  DevNotes
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://imsardine.github.io/life-notes/" target="_blank" title="LifeNotes">
+                  
+                    <i class="fa fa-fw fa-pagelines"></i>
+                  
+                  LifeNotes
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#挑選平台"><span class="nav-number">1.</span> <span class="nav-text">挑選平台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遇見-Hexo"><span class="nav-number">2.</span> <span class="nav-text">遇見 Hexo!</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#套用到-Test-Corner-上可能的問題"><span class="nav-number">3.</span> <span class="nav-text">套用到 Test Corner 上可能的問題</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeremy Kao</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://imsardine-github-io.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://imsardine.github.io/2016/11/19/hello-hexo/';
+          this.page.identifier = '2016/11/19/hello-hexo/';
+          this.page.title = 'Hello, Hexo!';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://imsardine-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

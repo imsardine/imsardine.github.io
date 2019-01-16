@@ -1,0 +1,853 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-tw">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="SuaxtfLjU_TwfBADxP25lQkVUqcoR0VmJr_xc95-fFc" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="appium,debugging," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="以 Python binding 為例，若收到一個意味不明的錯誤，例如： WebDriverException: Message: An unknown server-side error occurred while processing the command. 要如何查出背後的原因？">
+<meta name="keywords" content="appium,debugging">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Appium 除錯的技巧">
+<meta property="og:url" content="http://imsardine.github.io/2016/12/01/appium-debugging-skills/index.html">
+<meta property="og:site_name" content="在電梯裡遇見雙胞胎">
+<meta property="og:description" content="以 Python binding 為例，若收到一個意味不明的錯誤，例如： WebDriverException: Message: An unknown server-side error occurred while processing the command. 要如何查出背後的原因？">
+<meta property="og:updated_time" content="2019-01-16T17:24:40.413Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Appium 除錯的技巧">
+<meta name="twitter:description" content="以 Python binding 為例，若收到一個意味不明的錯誤，例如： WebDriverException: Message: An unknown server-side error occurred while processing the command. 要如何查出背後的原因？">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://imsardine.github.io/2016/12/01/appium-debugging-skills/"/>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4844668015082917",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+  <title> Appium 除錯的技巧 | 在電梯裡遇見雙胞胎 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">在電梯裡遇見雙胞胎</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">當你開始尋找，就已經在前往的路上</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://imsardine.github.io/2016/12/01/appium-debugging-skills/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeremy Kao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://en.gravatar.com/userimage/7327382/909030095f272d9b27157d5419d34d50.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="在電梯裡遇見雙胞胎">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Appium 除錯的技巧
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2016-12-01T08:47:00+00:00">
+                2016-12-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/12/01/appium-debugging-skills/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/12/01/appium-debugging-skills/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>以 <a href="https://github.com/appium/python-client" target="_blank" rel="external">Python binding</a> 為例，若收到一個意味不明的錯誤，例如：</p>
+<pre><code>WebDriverException: Message: An unknown server-side error occurred while processing the command.
+</code></pre><p>要如何查出背後的原因？</p>
+<a id="more"></a>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>首先，啟動 Appium Server 時要將 log 寫到外部檔案，並加註時間截記 (本地時間)：</p>
+<pre><code>appium ... --log-timestamp --local-timezone --log &lt;LOG_FILE&gt;
+</code></pre><p>事後才能根據時間點，反查當時 server 端是發生什麼錯誤。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">  File &quot;test.py&quot;, line 21, in &lt;module&gt;</div><div class="line">    driver.swipe(0, 0, 1100, 0)</div><div class="line">  File &quot;~/.virtualenvs/appium/lib/python2.7/site-packages/appium/webdriver/webdriver.py&quot;, line 241, in swipe</div><div class="line">    action.perform()</div><div class="line">  File &quot;~/.virtualenvs/appium/lib/python2.7/site-packages/appium/webdriver/common/touch_action.py&quot;, line 94, in perform</div><div class="line">    self._driver.execute(Command.TOUCH_ACTION, params)</div><div class="line">  File &quot;~/.virtualenvs/appium/lib/python2.7/site-packages/selenium/webdriver/remote/webdriver.py&quot;, line 236, in execute</div><div class="line">    self.error_handler.check_response(response)</div><div class="line">  File &quot;~/.virtualenvs/appium/lib/python2.7/site-packages/appium/webdriver/errorhandler.py&quot;, line 29, in check_response</div><div class="line">    raise wde</div><div class="line">selenium.common.exceptions.WebDriverException: Message: An unknown server-side error occurred while processing the command.</div></pre></td></tr></table></figure>
+<p>Client 呼叫 <code>driver.swipe(0, 0, 1100, 0)</code>，只收到一個 “unknown server-side error”。Server 端的 log 檔如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">2016-11-30 17:06:52:668 - [HTTP] --&gt; POST /wd/hub/session/5f29d35c-18d0-4671-9ddd-ddf0d09d349f/touch/perform &#123;&quot;sessionId&quot;:&quot;5f29d35c-18d0-4671-9ddd-ddf0d09d349f&quot;,&quot;actions&quot;:[&#123;&quot;action&quot;:&quot;press&quot;,&quot;options&quot;:&#123;&quot;y&quot;:0,&quot;x&quot;:0&#125;&#125;,&#123;&quot;action&quot;:&quot;wait&quot;,&quot;options&quot;:&#123;&quot;ms&quot;:0&#125;&#125;,&#123;&quot;action&quot;:&quot;moveTo&quot;,&quot;options&quot;:&#123;&quot;y&quot;:0,&quot;x&quot;:1100&#125;&#125;,&#123;&quot;action&quot;:&quot;release&quot;,&quot;options&quot;:&#123;&#125;&#125;]&#125;</div><div class="line">2016-11-30 17:06:52:669 - [MJSONWP] Calling AppiumDriver.performTouch() with args: [[&#123;&quot;action&quot;:&quot;press&quot;,&quot;option...</div><div class="line">2016-11-30 17:06:52:672 - [debug] [AndroidBootstrap] Sending command to android: &#123;&quot;cmd&quot;:&quot;action&quot;,&quot;action&quot;:&quot;swipe&quot;,&quot;params&quot;:&#123;&quot;startX&quot;:0,&quot;startY&quot;:0,&quot;endX&quot;:1100,&quot;endY&quot;:0,&quot;steps&quot;:22&#125;&#125;</div><div class="line">2016-11-30 17:06:52:674 - [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got data from client: &#123;&quot;cmd&quot;:&quot;action&quot;,&quot;action&quot;:&quot;swipe&quot;,&quot;params&quot;:&#123;&quot;startX&quot;:0,&quot;startY&quot;:0,&quot;endX&quot;:1100,&quot;endY&quot;:0,&quot;steps&quot;:22&#125;&#125;</div><div class="line">2016-11-30 17:06:52:675 - [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command of type ACTION</div><div class="line">2016-11-30 17:06:52:675 - [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command action: swipe</div><div class="line">2016-11-30 17:06:52:690 - [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Display bounds: [0,0][1080,1776]</div><div class="line">2016-11-30 17:06:52:692 - [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Display bounds: [0,0][1080,1776]</div><div class="line">2016-11-30 17:06:52:698 - [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Returning result: &#123;&quot;status&quot;:13,&quot;value&quot;:&quot;Coordinate [x=1100.0, y=888.0] is outside of element rect: [0,0][1080,1776]&quot;&#125;</div><div class="line">2016-11-30 17:06:52:699 - [debug] [AndroidBootstrap] Received command result from bootstrap</div><div class="line">2016-11-30 17:06:52:703 - [HTTP] &lt;-- POST /wd/hub/session/5f29d35c-18d0-4671-9ddd-ddf0d09d349f/touch/perform 500 34 ms - 154</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>假設 client 端發生錯誤的時間是 2016-11-30 17:06:52，先從 log 檔案<em>結尾處</em>往上找 <code>2016-11-30 17:06:52</code> (注意 client 與 server 間是否有時間差)，再往上大概就能找到一些線索…</p>
+<blockquote>
+<p><i class="fa fa-lightbulb-o fa-3x"></i><br>如果 client 跟 server 在不同機器上，建議先校對兩邊的時間，避免時間差增加除錯的難度。</p>
+</blockquote>
+<p>不過 log 那麼長，閱讀上是有一些技巧。觀察上面的例子，不難發現 <code>[HTTP] --&gt;</code> 與 <code>[HTTP] &lt;--</code> 會成對地出現，這中間的 log 記錄從 server 接到 request、處理、寫出 response 的過程。</p>
+<pre><code>{timestamp} - [HTTP] --&gt; {method} {uri} {params}
+...
+{timestamp} - [HTTP] &lt;-- {method} {uri} {status} {duration} ms - {bytes}
+</code></pre><p>對照上面的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">2016-11-30 17:06:52:668 - [HTTP] --&gt; POST /wd/hub/session/5f29d35c-18d0-4671-9ddd-ddf0d09d349f/touch/perform &#123;&quot;sessionId&quot;:&quot;5f29d35c-18d0-4671-9ddd-ddf0d09d349f&quot;,&quot;actions&quot;:[&#123;&quot;action&quot;:&quot;press&quot;,&quot;options&quot;:&#123;&quot;y&quot;:0,&quot;x&quot;:0&#125;&#125;,&#123;&quot;action&quot;:&quot;wait&quot;,&quot;options&quot;:&#123;&quot;ms&quot;:0&#125;&#125;,&#123;&quot;action&quot;:&quot;moveTo&quot;,&quot;options&quot;:&#123;&quot;y&quot;:0,&quot;x&quot;:1100&#125;&#125;,&#123;&quot;action&quot;:&quot;release&quot;,&quot;options&quot;:&#123;&#125;&#125;]&#125;</div><div class="line">...</div><div class="line">2016-11-30 17:06:52:703 - [HTTP] &lt;-- POST /wd/hub/session/5f29d35c-18d0-4671-9ddd-ddf0d09d349f/touch/perform 500 34 ms - 154</div></pre></td></tr></table></figure>
+<p>可以這麼解讀：<code>driver.swipe(0, 0, 1100, 0)</code> 觸發了 <code>/wd/hub/session/.../touch/perform</code> 這個 POST request，在 server 端內部花了 34 ms 處理，但過程中發生了一些錯誤，所以回應 <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#500" target="_blank" rel="external">HTTP status 500</a> (Internal Server Error)，也之所以 client 端會看到 “unknown server-side error”。而問題的原因就在這兩行中間…</p>
+<blockquote>
+<p><i class="fa fa-sticky-note-o fa-3x"></i><br>對於 <em>server 花多少時間來處理這個 request</em> (<code>{duration} ms</code>) 的觀察也很重要，有助於釐清時間是花在 client 端還是 server 端。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">2016-11-30 17:06:52:669 - [MJSONWP] Calling AppiumDriver.performTouch() with args: [[&#123;&quot;action&quot;:&quot;press&quot;,&quot;option...</div><div class="line">...</div><div class="line">2016-11-30 17:06:52:698 - [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Returning result: &#123;&quot;status&quot;:13,&quot;value&quot;:&quot;Coordinate [x=1100.0, y=888.0] is outside of element rect: [0,0][1080,1776]&quot;&#125;</div><div class="line">2016-11-30 17:06:52:699 - [debug] [AndroidBootstrap] Received command result from bootstrap</div></pre></td></tr></table></figure>
+<blockquote>
+<p><i class="fa fa-lightbulb-o fa-3x"></i><br>其中 MJSONWP (<a href="https://github.com/appium/appium-base-driver/tree/master/lib/mjsonwp" target="_blank" rel="external">Mobile JSON Wire Protocol</a>) 是 Appium 內部跟不同平台 driver 間溝通的協定。 </p>
+</blockquote>
+<p>以這個例子而言，是因為 swipe 的座標值超出螢幕範圍：</p>
+<pre><code>Coordinate [x=1100.0, y=888.0] is outside of element rect: [0,0][1080,1776]
+</code></pre><h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><ul>
+<li>平時就要將 console log 寫到外部檔，一旦發生問題才有記錄可以反查。</li>
+<li>從檔案底部往上找，先找事發的時間點。(注意 client / server 的時間差)</li>
+<li>從 <code>[HTTP] &lt;--</code> 的結尾，判斷 HTTP status (非 200) 跟 duration 是否有異常，再看 <code>[HTTP] --&gt;</code> 與 <code>[HTTP] &lt;--</code> 之間的細節。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/appium/" rel="tag"># appium</a>
+          
+            <a href="/tags/debugging/" rel="tag"># debugging</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/22/gtac-2016-can-you-hear-me/" rel="next" title="“Can you hear me?” - Surviving Audio Quality Testing">
+                <i class="fa fa-chevron-left"></i> “Can you hear me?” - Surviving Audio Quality Testing
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/07/run-specific-tests-cat/" rel="prev" title="只執行某些測試 (connectedAndroidTest)">
+                只執行某些測試 (connectedAndroidTest) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5847635a985a11dc" async = "async" ></script>
+</div>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://en.gravatar.com/userimage/7327382/909030095f272d9b27157d5419d34d50.jpeg"
+               alt="Jeremy Kao" />
+          <p class="site-author-name" itemprop="name">Jeremy Kao</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最恐怖的事情就是－比你優秀的人，比你還努力！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">文章</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/imsardine" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/jeremy.kao.tw" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook-official"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/imsardine" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/jeremykao" target="_blank" title="LinkedIn">
+                  
+                    <i class="fa fa-fw fa-linkedin-square"></i>
+                  
+                  LinkedIn
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/113911398965423340908" target="_blank" title="Google+">
+                  
+                    <i class="fa fa-fw fa-google-plus"></i>
+                  
+                  Google+
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://imsardine.github.io/dev-notes/" target="_blank" title="DevNotes">
+                  
+                    <i class="fa fa-fw fa-keyboard"></i>
+                  
+                  DevNotes
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://imsardine.github.io/life-notes/" target="_blank" title="LifeNotes">
+                  
+                    <i class="fa fa-fw fa-pagelines"></i>
+                  
+                  LifeNotes
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#方法"><span class="nav-number">1.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#總結"><span class="nav-number">2.</span> <span class="nav-text">總結</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeremy Kao</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://imsardine-github-io.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://imsardine.github.io/2016/12/01/appium-debugging-skills/';
+          this.page.identifier = '2016/12/01/appium-debugging-skills/';
+          this.page.title = 'Appium 除錯的技巧';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://imsardine-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

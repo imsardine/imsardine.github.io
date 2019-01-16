@@ -1,0 +1,829 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-tw">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="SuaxtfLjU_TwfBADxP25lQkVUqcoR0VmJr_xc95-fFc" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="linux,command," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="tee [-a] &amp;lt;FILE&amp;gt; tee 的行為很特別，一方面會從 stdin 讀取資料，另一方面又會將資料同時寫到 stdout 跟 FILE，就像是 一分二的轉接頭。 (圖片來源：tee (command) - Wikipedia, the free encyclopedia)">
+<meta name="keywords" content="linux,command">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tee 指令的用法">
+<meta property="og:url" content="http://imsardine.github.io/2014/03/19/tee-command/index.html">
+<meta property="og:site_name" content="在電梯裡遇見雙胞胎">
+<meta property="og:description" content="tee [-a] &amp;lt;FILE&amp;gt; tee 的行為很特別，一方面會從 stdin 讀取資料，另一方面又會將資料同時寫到 stdout 跟 FILE，就像是 一分二的轉接頭。 (圖片來源：tee (command) - Wikipedia, the free encyclopedia)">
+<meta property="og:image" content="http://imsardine.github.io/images/tee.png">
+<meta property="og:updated_time" content="2019-01-16T17:24:40.413Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tee 指令的用法">
+<meta name="twitter:description" content="tee [-a] &amp;lt;FILE&amp;gt; tee 的行為很特別，一方面會從 stdin 讀取資料，另一方面又會將資料同時寫到 stdout 跟 FILE，就像是 一分二的轉接頭。 (圖片來源：tee (command) - Wikipedia, the free encyclopedia)">
+<meta name="twitter:image" content="http://imsardine.github.io/images/tee.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://imsardine.github.io/2014/03/19/tee-command/"/>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4844668015082917",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+  <title> tee 指令的用法 | 在電梯裡遇見雙胞胎 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">在電梯裡遇見雙胞胎</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">當你開始尋找，就已經在前往的路上</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://imsardine.github.io/2014/03/19/tee-command/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeremy Kao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://en.gravatar.com/userimage/7327382/909030095f272d9b27157d5419d34d50.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="在電梯裡遇見雙胞胎">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                tee 指令的用法
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2014-03-19T06:58:56+00:00">
+                2014-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/03/19/tee-command/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2014/03/19/tee-command/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <pre><code>tee [-a] &lt;FILE&gt;
+</code></pre><p><code>tee</code> 的行為很特別，一方面會從 stdin 讀取資料，另一方面又會將資料同時寫到 stdout 跟 <code>FILE</code>，就像是 <em>一分二的轉接頭</em>。</p>
+<p><img src="/images/tee.png" alt="T 字管"><br>(圖片來源：<a href="http://en.wikipedia.org/wiki/Tee_(command" target="_blank" rel="external">tee (command) - Wikipedia, the free encyclopedia</a>)</p>
+<a id="more"></a>
+<blockquote>
+<p><i class="fa fa-lightbulb-o fa-3x"></i><br>實際上 <code>tee</code> 的名稱就是這麼來的，tee 指的就是 “T 字管” 或 “三通管”。</p>
+</blockquote>
+<h2 id="常見的用法"><a href="#常見的用法" class="headerlink" title="常見的用法"></a>常見的用法</h2><h3 id="記錄螢幕輸出的訊息"><a href="#記錄螢幕輸出的訊息" class="headerlink" title="記錄螢幕輸出的訊息"></a>記錄螢幕輸出的訊息</h3><pre><code>&lt;COMMAND&gt; [2&gt;&amp;1] | tee [-a] &lt;FILE&gt;
+</code></pre><p>讓 <code>COMMAND</code> 持續寫出到 stdout 的內容，除了即時顯示在螢幕之外，也一併記錄檔案 <code>FILE</code>。其中 <code>2&gt;&amp;1</code> 可以將 stderr 的內容轉到 stdin，讓 <code>tee</code> 一併做處理。</p>
+<p>以 <code>adb logcat</code> 為例，讓持續寫出的 logs 除了顯示在螢幕之外，也一併寫到 <code>/tmp/logcat</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ adb logcat -v threadtime -b main | tee /tmp/logcat</div><div class="line">03-19 06:58:36.470  5220  5222 D dalvikvm: GC_CONCURRENT freed 970K, 11% free 15396K/17287K, paused 4ms+4ms, total 74ms</div><div class="line">03-19 06:58:38.685  1900  1923 E DataRouter: After the usb select </div><div class="line">03-19 06:58:38.685  1900  1923 E DataRouter: read usb data[len:1]</div><div class="line">...</div><div class="line"></div><div class="line">$ cat /tmp/logcat</div><div class="line">03-19 06:58:36.470  5220  5222 D dalvikvm: GC_CONCURRENT freed 970K, 11% free 15396K/17287K, paused 4ms+4ms, total 74ms</div><div class="line">03-19 06:58:38.685  1900  1923 E DataRouter: After the usb select </div><div class="line">03-19 06:58:38.685  1900  1923 E DataRouter: read usb data[len:1]</div><div class="line">...</div></pre></td></tr></table></figure>
+<h2 id="常用的選項"><a href="#常用的選項" class="headerlink" title="常用的選項"></a>常用的選項</h2><ul>
+<li><code>-a, --append</code><br>附加到 <code>FILE</code> 後面，而非覆寫。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+            <a href="/tags/command/" rel="tag"># command</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/03/31/testing-roles/" rel="prev" title="測試人員的角色 - SWE、SET、TE">
+                測試人員的角色 - SWE、SET、TE <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5847635a985a11dc" async = "async" ></script>
+</div>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://en.gravatar.com/userimage/7327382/909030095f272d9b27157d5419d34d50.jpeg"
+               alt="Jeremy Kao" />
+          <p class="site-author-name" itemprop="name">Jeremy Kao</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最恐怖的事情就是－比你優秀的人，比你還努力！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">文章</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/imsardine" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/jeremy.kao.tw" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook-official"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/imsardine" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/jeremykao" target="_blank" title="LinkedIn">
+                  
+                    <i class="fa fa-fw fa-linkedin-square"></i>
+                  
+                  LinkedIn
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/113911398965423340908" target="_blank" title="Google+">
+                  
+                    <i class="fa fa-fw fa-google-plus"></i>
+                  
+                  Google+
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://imsardine.github.io/dev-notes/" target="_blank" title="DevNotes">
+                  
+                    <i class="fa fa-fw fa-keyboard"></i>
+                  
+                  DevNotes
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://imsardine.github.io/life-notes/" target="_blank" title="LifeNotes">
+                  
+                    <i class="fa fa-fw fa-pagelines"></i>
+                  
+                  LifeNotes
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#常見的用法"><span class="nav-number">1.</span> <span class="nav-text">常見的用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#記錄螢幕輸出的訊息"><span class="nav-number">1.1.</span> <span class="nav-text">記錄螢幕輸出的訊息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用的選項"><span class="nav-number">2.</span> <span class="nav-text">常用的選項</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeremy Kao</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://imsardine-github-io.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://imsardine.github.io/2014/03/19/tee-command/';
+          this.page.identifier = '2014/03/19/tee-command/';
+          this.page.title = 'tee 指令的用法';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://imsardine-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

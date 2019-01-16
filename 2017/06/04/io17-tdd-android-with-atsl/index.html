@@ -1,0 +1,1009 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-tw">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="SuaxtfLjU_TwfBADxP25lQkVUqcoR0VmJr_xc95-fFc" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android,unit-testing,test-automation,espresso,testing-pyramid,e2e-testing,tdd,robolectric,hermetic-testing,integration-testing," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="這是 Google I/O 2017 Day 2 (5/18) 一場關於 Android TDD 實務的演說，也是唯一跟 Android 自動化測試比較有關的分享。 整場演說以測試金字塔 (Testing Pyramid) 與 TDD workflow 為主軸，從 large end-to-end (E2E)/UI test 開始驅動 small unit test，再回頭用 hermetic">
+<meta name="keywords" content="android,unit-testing,test-automation,espresso,testing-pyramid,e2e-testing,tdd,robolectric,hermetic-testing,integration-testing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Test-Driven Development on Android with the Android Testing Support Library (Google I&#x2F;O &#39;17)">
+<meta property="og:url" content="http://imsardine.github.io/2017/06/04/io17-tdd-android-with-atsl/index.html">
+<meta property="og:site_name" content="在電梯裡遇見雙胞胎">
+<meta property="og:description" content="這是 Google I/O 2017 Day 2 (5/18) 一場關於 Android TDD 實務的演說，也是唯一跟 Android 自動化測試比較有關的分享。 整場演說以測試金字塔 (Testing Pyramid) 與 TDD workflow 為主軸，從 large end-to-end (E2E)/UI test 開始驅動 small unit test，再回頭用 hermetic">
+<meta property="og:image" content="http://imsardine.github.io/images/io17-tdd-android-with-atsl/mobile-ninjas.png">
+<meta property="og:image" content="http://imsardine.github.io/images/io17-tdd-android-with-atsl/testing-pyramid.png">
+<meta property="og:image" content="http://imsardine.github.io/images/io17-tdd-android-with-atsl/tdd-workflow.png">
+<meta property="og:image" content="http://imsardine.github.io/images/io17-tdd-android-with-atsl/note-taking-app.png">
+<meta property="og:image" content="http://imsardine.github.io/images/io17-tdd-android-with-atsl/unit-test-tdd.png">
+<meta property="og:image" content="http://imsardine.github.io/images/io17-tdd-android-with-atsl/unit-test-characteristics.png">
+<meta property="og:image" content="http://imsardine.github.io/images/io17-tdd-android-with-atsl/mocking-android.png">
+<meta property="og:image" content="http://imsardine.github.io/images/io17-tdd-android-with-atsl/robolectric-at-google.png">
+<meta property="og:image" content="http://imsardine.github.io/images/io17-tdd-android-with-atsl/instrumentation-testing-flow.png">
+<meta property="og:image" content="http://imsardine.github.io/images/io17-tdd-android-with-atsl/ajur-testing-flow.png">
+<meta property="og:image" content="http://imsardine.github.io/images/io17-tdd-android-with-atsl/test-execution-in-isolation.png">
+<meta property="og:image" content="http://imsardine.github.io/images/io17-tdd-android-with-atsl/orchestrator-testing-flow.png">
+<meta property="og:image" content="http://imsardine.github.io/images/io17-tdd-android-with-atsl/espresso-api-flow.png">
+<meta property="og:image" content="http://imsardine.github.io/images/io17-tdd-android-with-atsl/intent-boundaries.png">
+<meta property="og:image" content="http://imsardine.github.io/images/io17-tdd-android-with-atsl/multiprocess-espresso-arch.png">
+<meta property="og:updated_time" content="2019-01-16T17:24:40.413Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Test-Driven Development on Android with the Android Testing Support Library (Google I&#x2F;O &#39;17)">
+<meta name="twitter:description" content="這是 Google I/O 2017 Day 2 (5/18) 一場關於 Android TDD 實務的演說，也是唯一跟 Android 自動化測試比較有關的分享。 整場演說以測試金字塔 (Testing Pyramid) 與 TDD workflow 為主軸，從 large end-to-end (E2E)/UI test 開始驅動 small unit test，再回頭用 hermetic">
+<meta name="twitter:image" content="http://imsardine.github.io/images/io17-tdd-android-with-atsl/mobile-ninjas.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://imsardine.github.io/2017/06/04/io17-tdd-android-with-atsl/"/>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4844668015082917",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+  <title> Test-Driven Development on Android with the Android Testing Support Library (Google I/O '17) | 在電梯裡遇見雙胞胎 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">在電梯裡遇見雙胞胎</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">當你開始尋找，就已經在前往的路上</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://imsardine.github.io/2017/06/04/io17-tdd-android-with-atsl/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeremy Kao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://en.gravatar.com/userimage/7327382/909030095f272d9b27157d5419d34d50.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="在電梯裡遇見雙胞胎">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Test-Driven Development on Android with the Android Testing Support Library (Google I/O '17)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-06-04T00:00:00+00:00">
+                2017-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/04/io17-tdd-android-with-atsl/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/06/04/io17-tdd-android-with-atsl/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/pK7W5npkhho?rel=0" frameborder="0" allowfullscreen></iframe>
+
+<p>這是 Google I/O 2017 Day 2 (5/18) 一場關於 Android TDD 實務的演說，也是唯一跟 Android 自動化測試比較有關的分享。</p>
+<p>整場演說以測試金字塔 (Testing Pyramid) 與 TDD workflow 為主軸，從 large end-to-end (E2E)/UI test 開始驅動 small unit test，再回頭用 hermetic testing 的思維導出中間的 medium integration test。</p>
+<p>過程中公佈下一版 <a href="https://google.github.io/android-testing-support-library/" target="_blank" rel="external">Android Testing Support Library (ATSL)</a> 將會有 Android Test Orchestrator 與 Multiprocess <a href="https://google.github.io/android-testing-support-library/docs/espresso/" target="_blank" rel="external">Espresso</a>，分別用來消除 large E2E test 間的交互影響、解決 UI 可能執行在多個 process 的問題。</p>
+<p>其間最讓人意外的是 <a href="http://robolectric.org/" target="_blank" rel="external">Robolectric</a> 似乎開始在 Google 內部受到重視，雖然官方尚未宣稱支持這個專案，但從內部許多專案已經採用、<a href="https://source.android.com/compatibility/cts/" target="_blank" rel="external">Android CTS</a> 相容性測試已達 70% 看來，正式成為 ATSL 的一員是可以期待的?</p>
+<a id="more"></a>
+<p><strong>文中摻雜了許多個人的想法，建議先看過官方的影片，有不同的觀點也歡迎留言討論；圖片均來自影片的截圖，若有侵權請告知做調整。</strong></p>
+<h2 id="Mobile-Ninjas"><a href="#Mobile-Ninjas" class="headerlink" title="Mobile Ninjas"></a>Mobile Ninjas</h2><p>在 Google 內部有個稱做 Mobile Ninjas 的團隊，由一群對軟體測試有熱情的人所組成。</p>
+<p><img src="/images/io17-tdd-android-with-atsl/mobile-ninjas.png" alt="Mobile Ninjas"></p>
+<p>四位講者都是 Mobile Ninjas 的成員，大家熟知的 ATSL - 包括 <a href="https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner.html" target="_blank" rel="external"><code>AndroidJUnitRunner</code> (AJUR)</a>、<a href="https://developer.android.com/reference/android/support/test/rule/package-summary.html" target="_blank" rel="external">JUnit test rule</a>、Espresso 都是這個團隊在負責，有趣的是他們也正積極參與 Robolectric 的開發。</p>
+<p>就我所知，Espresso 第一次公開是在 <a href="https://www.youtube.com/watch?v=T7ugmCuNxDU" target="_blank" rel="external">GTAC 2013: Espresso: Fresh Start to Android UI Testing</a>，當時的講者 Valera Zakharov 主導過 Espresso 與 ATSL 的開發，不過他已經離開 Google 加入 Slack，成為 <a href="https://developers.google.com/experts/people/valera-zakharov" target="_blank" rel="external">Mobile Ninjas 的校友</a>。</p>
+<h2 id="測試金字塔"><a href="#測試金字塔" class="headerlink" title="測試金字塔"></a>測試金字塔</h2><p>測試金字塔 (Testing Pyramid) 由 unit tests、integration tests、E2E tests 組成，分別對應 ATSL 的 <a href="https://developer.android.com/reference/android/support/test/filters/SmallTest.html" target="_blank" rel="external"><code>@SmallTest</code></a>、<a href="https://developer.android.com/reference/android/support/test/filters/MediumTest.html" target="_blank" rel="external"><code>@MediumTest</code></a> 與 <a href="https://developer.android.com/reference/android/support/test/filters/LargeTest.html" target="_blank" rel="external"><code>@LargeTest</code></a>。</p>
+<p><img src="/images/io17-tdd-android-with-atsl/testing-pyramid.png" alt="Testing Pyramid"></p>
+<p>最底層的 unit test 執行在主機的 JVM 上，也就是 <a href="https://developer.android.com/training/testing/unit-testing/local-unit-tests.html" target="_blank" rel="external">local unit test</a> - 速度極快、專注在單一面向 (highly focused)，這一層的 trade-off 是 fidelity (忠實)，因為過程中會用到許多 mock/fake object。</p>
+<p>往上是 integration 與 E2E test，因為重點是 fidelity，所以要執行在 device/emulator 上，也就是 <a href="https://developer.android.com/training/testing/unit-testing/instrumented-unit-tests.html" target="_blank" rel="external">instrumented test</a> - 速度較慢、涉及的面向較廣 (less focused)，這一層的 trade-off 則是測試速度。</p>
+<blockquote>
+<p>19:26 Testing is about tradeoffs.</p>
+</blockquote>
+<p>為了在測試速度與 fidelity 間取得平衡，實務上會混用 local unit test 與 instrumented test，當然在數量上 local unit test 會比 instrumented test 多很多。Google 內部的專家則建議 small、medium、large test 的比例可以維持在 70:20:10。</p>
+<blockquote>
+<p>03:15 There’s no single layer in this testing pyramid that can suffice so what you need to do is to BLEND in tests at different tier leveraging the strengths of one category to weight off the trade-off in another.</p>
+<p>There’s no real hard and fast rule here, but Google’s own internal testing experts recommend a 70-20-10 rule of thumb the ratio between small, medium and large tests.</p>
+</blockquote>
+<p>或許是為了避免失焦，這場演說完全沒有提到如何減少對 instrumented test 的依賴，例如套用 <a href="https://github.com/googlesamples/android-architecture/tree/todo-mvp" target="_blank" rel="external">MVP</a> 或 <a href="https://github.com/googlesamples/android-architecture/tree/todo-mvvm-databinding" target="_blank" rel="external">MVVM</a> 架構，讓大部份的邏輯可以用 local unit test 進行測試，倒是另一場演說 <a href="https://www.youtube.com/watch?v=FrteWKKVyzI" target="_blank" rel="external">Architecture Components - Introduction</a> 裡有提到類似的概念：</p>
+<blockquote>
+<p>07:51 Third, we are going to introduce a lightweight ViewModel, which is all of our effort to TAKE OUT THAT CODE OUTSIDE OF YOUR ACTIVITIES AND FRAGMENTS, and put it somewhere else where you can easily test it. </p>
+<p>32:25 Now, people say UI testing is hard. UI testing is – yes, it’s harder. But it’s usually hard because you put all of your code into that activity. Now we said, put most of it into the ViewModel, and you know that UI only talks to the ViewModel, so you can get rid of the other two. You only need to create a fake ViewModel to test your UI. Testing your UI becomes super, super easy with Espresso.</p>
+</blockquote>
+<h2 id="TDD-Workflow"><a href="#TDD-Workflow" class="headerlink" title="TDD Workflow"></a>TDD Workflow</h2><p>TDD workflow 由內外圈兩個迭代 (iteration) 組成，外圈的迭代用 UI test 來驅動功能開發 (feature development)，中間更小的迭代則用 unit test 來驅動該項功能背後數個小單元的開發。</p>
+<p><img src="/images/io17-tdd-android-with-atsl/tdd-workflow.png" alt="TDD Workflow"></p>
+<p>同 TDD 的真言 (mantra) - Red-Green-Refactor，內外圈的迭代都是先寫 test code 再寫 production code (足以通過測試即可，不多也不少)，待測試通過後再進行重構 (refactor)，形成一個循環。</p>
+<blockquote>
+<p>04:05 We like test-driven development because it makes you to think about the design of your application UP FRONT. It gives you consideration to APIs and the structure of your code. With test-driven development, you’re also going to be writing LESS code because you only write the code necessary to satisfy your tests.</p>
+</blockquote>
+<h2 id="Larget-E2E-UI-Test"><a href="#Larget-E2E-UI-Test" class="headerlink" title="Larget E2E / UI Test"></a>Larget E2E / UI Test</h2><p>整場演說都用類似於 <a href="https://codelabs.developers.google.com/codelabs/android-testing/index.html" target="_blank" rel="external">Android Testing Codelab</a> 的記事 app 做為範例，並專注在 “新增一則筆記” 這項功能，說明如何搭配不同層級的 test，來驅動這項功能的開發。</p>
+<p><img src="/images/io17-tdd-android-with-atsl/note-taking-app.png" alt="Note-taking Sample App"></p>
+<p>首先從 TDD workflow 外圈的迭代開始，把焦點放在測試金字塔的最上層，用 Espresso 實作 UI test - <code>NotesScreenTest.java</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span> <span class="meta">@LargeTest</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addNoteToNotesList</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">// Click on the add note button</span></div><div class="line">    onView(withId(R.id.add_note)).perform(click());</div><div class="line"></div><div class="line">    <span class="comment">// Add note title and description</span></div><div class="line">    onView(withId(R.id.title)).perform(typeText(<span class="string">"More"</span>));</div><div class="line">    onView(withId(R.id.description)).perform(typeText(<span class="string">"Caffeination"</span>));</div><div class="line"></div><div class="line">    <span class="comment">// Save the note</span></div><div class="line">    onView(withId(R.id.add_note)).perform(click());</div><div class="line"></div><div class="line">    <span class="comment">// Verify note is displayed on screen</span></div><div class="line">    onView(withItemText(<span class="string">"Caffeination"</span>)).check(matches(isDisplayed()));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>這個 test 會橫跨多個 activity，從筆記清單的畫面 (<code>NotesListActivity</code>) 開始，按右下角的 + 鈕 (<code>R.id.add_note</code>) 進到新增筆記的畫面 (<code>AddNoteActivity</code>)，輸入 title (<code>R.id.title</code>) 與 description (<code>R.id.description</code>) 後，按右下角的 ✓ (<code>R.id.add_note</code>) 儲存筆記後回到第一個畫面，最後檢查新增的筆記有出現在畫面上。</p>
+<p>此時執行這個 test 會失敗，因為尚未寫任何的 production code，不過為了讓 test code 可以成功編譯，至少得建立空的 activity、在 XML layout file 裡定義 test code 會用到的 resource ID 等。</p>
+<blockquote>
+<p>06:25 Now remember, with test-driven development, we’ll not implement code just yet. All we have to do is implement enough of the application to satisfy the specification of our tests. So an empty activity, and just the resources that we need, will suffice. Once we have that, we can run our test and we’ll see it’ll fail.</p>
+</blockquote>
+<p>雖然 UI testing 要不要做為 TDD 的一環是<a href="http://www.donnfelker.com/tdd-your-ui-layer/" target="_blank" rel="external">有爭議的</a>，不過因為 Espresso 的 API 極為簡單，會讓這件事變得可行。</p>
+<blockquote>
+<p>27:20 And because this API is so simple, it’s the perfect tool for fast TDD prototyping of UI tests.</p>
+</blockquote>
+<h2 id="Small-Unit-Test"><a href="#Small-Unit-Test" class="headerlink" title="Small / Unit Test"></a>Small / Unit Test</h2><p>為了讓 UI test 通過，接著把焦點移往測試金字塔的下層 - 該項功能背後組成的小單元，進到 TDD workflow 內圈的迭代，這個部份則由 unit test 來驅動。</p>
+<p><img src="/images/io17-tdd-android-with-atsl/unit-test-tdd.png" alt="Unit Test TDD"></p>
+<p>先列舉好的 unit test 應該要有幾個特點：</p>
+<p><img src="/images/io17-tdd-android-with-atsl/unit-test-characteristics.png" alt="Good Unit Tests"></p>
+<ul>
+<li>Thorough - 除了 happy path 外，也要考量各種例外狀況、邊界值測試 (boundary testing) 等，也因此 unit test 的數量會很多。</li>
+<li>Repeatable - 每次的測試結果都要一樣 (可預期的)，要避免跟外部的伺服器、當下的時間等產生相依，否則會讓 unit test 同樣遭遇 flakiness。</li>
+<li>Focused - 每個 test 只專注在單一個面向，失敗時才能很快找到有問題的地方。</li>
+<li>Verifies Behavior - 避免對實作做太多假設，測試 behavior 才不會因實作細節改變就要調整 test code。</li>
+<li>Fast - 因為數量很多，所以執行速度一定要快，否則會讓人不太想寫測試、進行重構。</li>
+<li>Concise - Test code 會隨著 production code 演進，保持簡潔就會是最好的文件 (documentation)。</li>
+</ul>
+<p><code>AddNoteActivity</code> 的 unit test，理想上會像這個樣子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@SmallTest</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddNoteActivityTest</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="meta">@Test</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shouldSaveNoteToRepository</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">// Set up conditions of the test...</span></div><div class="line">    Activity activity = <span class="keyword">new</span> AddNoteActivity();</div><div class="line">    -&gt; set title to <span class="string">"More"</span></div><div class="line">    -&gt; set description to <span class="string">"Caffeination"</span></div><div class="line"></div><div class="line">    <span class="comment">// Execute the code under test...</span></div><div class="line">    -&gt; click <span class="string">"Add Note"</span></div><div class="line"></div><div class="line">    <span class="comment">// Make assertions on the results...</span></div><div class="line">    -&gt; <span class="keyword">assert</span> that note has been saved</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>講者習慣把 arrange, action 跟 assertion 明確切分開來，這樣可以提高 test code 的可讀性。相對於前面的 <code>NotesScreenTest</code> (<code>@LargeTest</code>)，這裡的 <code>AddNoteActivityTest</code> (<code>@SmallTest</code>) 只測單一個 activity，確認在 <code>AddNoteActivity</code> 按下 “Add Note” 時，筆記會被存起來。</p>
+<p>一開始先用 <a href="http://site.mockito.org/" target="_blank" rel="external">Mockito</a> 來寫 unit test，利用 mock object (搭配 <a href="https://developer.android.com/training/testing/unit-testing/local-unit-tests.html#mocking-dependencies" target="_blank" rel="external">mockable <code>android.jar</code></a>) 把 Android framework 的相依性隔離 (isolate) 開來。</p>
+<p><img src="/images/io17-tdd-android-with-atsl/mocking-android.png" alt="Mocking Android in Unit Tests"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RunWith</span>(PowerMockRunner.class)</div><div class="line"><span class="meta">@PrepareForTest</span>(PreferenceManager.class)</div><div class="line"><span class="meta">@SmallTest</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddNoteActivityTest</span> </span>&#123;</div><div class="line">  <span class="meta">@Mock</span> EditText titleText;</div><div class="line">  <span class="meta">@Mock</span> EditTest descriptionText;</div><div class="line">  <span class="meta">@Mock</span> Button addNoteButton;</div><div class="line">  <span class="meta">@Mock</span> SharedPreferences sharedPreferences;</div><div class="line">  <span class="meta">@Mock</span> SharedPreferences.Editor editor;</div><div class="line"></div><div class="line">  <span class="meta">@Test</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shouldSaveNoteToRepository</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">// Set up conditions of the test...</span></div><div class="line">    MockitoAnnotations.initMocks(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">    Activity activity = Mockito.spy(<span class="keyword">new</span> AddNoteActivity());</div><div class="line"></div><div class="line">    Mockito.doReturn(titleText).when(activity).findViewById(R.id.title);</div><div class="line">    Mockito.doReturn(descriptionText).when(activity).findViewById(R.id.description);</div><div class="line">    Mockito.doReturn(addNoteButton).when(activity).findViewById(R.id.add_note);</div><div class="line"></div><div class="line">    Mockito.when(titleText.getText()).thenReturn(<span class="keyword">new</span> SpannableStringBuilder(<span class="string">"More"</span>));</div><div class="line">    Mockito.when(descriptionText.getText()).thenReturn(<span class="keyword">new</span> SpannableStringBuilder(<span class="string">"Caffeination"</span>));</div><div class="line">    Mockito.doReturn(addNoteButton).when(activity).findViewById(R.id.add_note);</div><div class="line">    ArgumentCaptor&lt;&gt; captor = ArgumentCaptor.forClass(View.OnClickListene.class);</div><div class="line">    Mockito.doNothing().when(addNoteButton).setOnClickListener(captor.capture());</div><div class="line"></div><div class="line">    PowerMock.mockStatic(PreferenceManager.class);</div><div class="line">    Mockito.when(PreferenceManager.getDefaultSharePreferences(any(Context.class))</div><div class="line">               .thenReturn(sharedPreferences);</div><div class="line">    Mockito.when(sharedPreferences.edit()).thenReturn(editor);</div><div class="line">    Mockito.when(editor.putString(anyString(), anyString())).thenReturn(editor);</div><div class="line">    Mockito.when(editor.commit()).thenReturn(<span class="keyword">true</span>);</div><div class="line"></div><div class="line">    <span class="comment">// Execute the code under test...</span></div><div class="line">    captor.getValue().onClick(addNoteButton);</div><div class="line"></div><div class="line">    <span class="comment">// Make assertion on the results...</span></div><div class="line">    Mockito.verify(editor).putString(<span class="string">"1-title"</span>, <span class="string">"More"</span>);</div><div class="line">    Mockito.verify(editor).putString(<span class="string">"2-desc"</span>, <span class="string">"Caffeination"</span>);</div><div class="line">    Mockito.verify(editor).commit();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>結果會有很高比例的 test code 都在安排 Android framework 該有的反應 - 對測試對象 <code>AddNoteActivity</code> 做 <a href="https://static.javadoc.io/org.mockito/mockito-core/2.8.9/org/mockito/Mockito.html#13" target="_blank" rel="external">spying</a>、為了通過 test 而對 Android framework 做了過多的 stubbing、因為 Android framework 本身用了一堆 static method，逼得我們必須額外用 <a href="http://powermock.github.io/" target="_blank" rel="external">PowerMock</a> 才能處理它 …</p>
+<blockquote>
+<p>10:40 Up until now with the Android platform, you’re writing your unit tests using the mockable jar conjunction with a mocking library, such as Mockito. </p>
+<p>10:58 Wow. That’s a lot of code. OK. So because we have so many interactions with the Android framework, we’re going to need to provide stubbing behavior for all of them in order just to satisfy the execution path of our test. And furthermore, because Android uses a lot of static methods, we’re forced to introduce a second mocking library, PowerMock, that will handle this special case for us.</p>
+</blockquote>
+<p>顯然用 Mockito 來處理 Android framework 的相依性並不那麼合適，況且這也違反了 <a href="https://github.com/mockito/mockito/wiki/How-to-write-good-tests#dont-mock-type-you-dont-own" target="_blank" rel="external">Don’t mock type you don’t owk</a> 的原則。</p>
+<p>過程中有討論到，將筆記儲存在雲端 cloud storage 是可預見的需求，或許可以提出一層 note repository 做抽象化 (abstraction)？雖然 TDD 促使我們預先思考設計，但是從簡單的 test 開始也是 TDD 很重要的一點，所以要抗拒過度設計的誘惑 (resist the temptation)，也因此上面的 test 雖然命名為 <code>shouldSaveNoteToRepository()</code>，但卻沒有用到 repository。</p>
+<blockquote>
+<p>09:19 It’s conceivable that, as our application evolves, so did our requirement. And perhaps our storage requirements evolve to persist the notes onto cloud storage and we have to build some kind of a synchronization mechanism for local storage for the offline use case.</p>
+<p>And in these cases, we see opportunities for abstraction. We might, in this example, see that we can extract a notes repository. However, one of the key aspects of test-driven development is that we only start by writing the simplest case first, and then we iterate. So we’re going to resist the temptation to do this early. </p>
+</blockquote>
+<h2 id="Robolectric"><a href="#Robolectric" class="headerlink" title="Robolectric"></a>Robolectric</h2><p>由於 Android framework 的相依性用 Mockito 處理起來會很麻煩，所以順勢把 Google 正積極參與開發的 Robolectric 帶出來，由原作者 <a href="https://github.com/xian" target="_blank" rel="external">Christian Williams</a> 現身說法。</p>
+<p>確實 Robolectric 是早期匆忙拼凑的 (scrappy) 的方案，因為受不了把測試送到 device/emulator 很花時間，在去年 Christian 加入 Google 之前 (成為 Tools and Infrastructure 的一員)，<a href="https://github.com/jongerrish" target="_blank" rel="external">Jonathan</a> 已經在為 Google 內部的 test suite 改善 Robolectric，之後便合力貢獻回 open source project。</p>
+<p>Christian 表示，雖然 Robolectric 仍然不是官方 Android Testing 的一部份，但如果使用正確的話，將會是 testing strategy 裡很有用的一塊。</p>
+<p>Robolectric 用在 local unit test，提供 Android sandbox 並執行真正的 SDK code (simulates the Android SDK for unit tests)，在 test code 中可以存取 activity、layout、view、resource 等，至於在 Android framework 裡有些相依於 native code、hardware、external system service 的部份，Robolectric 則用 <a href="http://robolectric.org/extending/" target="_blank" rel="external">shadows</a> (一種 test double) 來處理，也就是替換成適合 unit testing 的實作 (alternative implementation)。</p>
+<p>用 Robolectric 改寫前面 Mockito + mockable <code>android.jar</code> 的 test code，會變得很簡潔：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@SmallTest</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddNoteActivityTest</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="meta">@Test</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shouldSaveNoteToRepository</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">// Set up conditions of the test...</span></div><div class="line">    Activity activity = Robolectric.setupActivity(AddNoteActivity.class);</div><div class="line">    activity.findViewById(R.id.title).setText(<span class="string">"More"</span>);</div><div class="line">    activity.findViewById(R.id.description).setText(<span class="string">"Caffeination"</span>);</div><div class="line"></div><div class="line">    <span class="comment">// Execute the code under test...</span></div><div class="line">    activity.findViewById(R.id.add_note).performClick();</div><div class="line"></div><div class="line">    <span class="comment">// Make assertions on the results...</span></div><div class="line">    assertThat(Injector.getNotesRepository().getNotes())</div><div class="line">        .containsExactly(<span class="keyword">new</span> Note(<span class="string">"More"</span>, <span class="string">"Caffeination"</span>));</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>(這裡假設已經實作 note respository 的機制，所以才會有 <code>Injector.getNotesRepository()</code> 的用法出現)</p>
+<p>Robolectric 會根據 manifest 設置 application，例如 <a href="http://robolectric.org/javadoc/latest/org/robolectric/Robolectric.html#setupActivity-java.lang.Class-" target="_blank" rel="external"><code>Robolectric.setupActivity(AddNoteActivity.class)</code></a> 會讓 activity 走過適當的 lifecycle 來到正確的 state (指 <code>onResume()</code>)，跟 Espresso 不同的是，這裡都直接操作 view - 用 <code>Activity.findViewById()</code> 找 view、用 <code>View.performClick()</code> 模擬使用者的動作 (其實是呼叫 <code>OnClickListener</code>)。</p>
+<p>Shadow 除了為 unit testing 提供替換的實作，也為某些 Android class 提供 extended testing API，可以用來詢問內部狀態 (internal state) 或是改變它的行為。例如 <a href="http://robolectric.org/javadoc/latest/org/robolectric/shadows/ShadowApplication.html#getNextStartedActivity--" target="_blank" rel="external"><code>shadowOf(application).getNextStartedActivity()</code></a> 就是在問 application 測試過程中是否有啟動 intent，這裡就可以用來檢查儲存筆記後是否回到 <code>NotesListActivity</code>。</p>
+<p>(15:58 的投影片寫著 <code>shadowOf(application).getStartedIntent()</code>，這應該是誤植，因為 Robolectric API 從來都沒出現過 <code>ShadowApplication.getStartedIntent()</code>)</p>
+<p>有了 failing unit test，接下來 production code 反而是比較簡單的部份 - 只寫可以通過 test 的程式，不多也不少：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddNoteActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</div><div class="line">  <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</div><div class="line">    setContentView(R.layout.add_note);</div><div class="line">    findViewById(R.id.add_note).setOnClickHadler(() -&gt; &#123;</div><div class="line">      Injector.getNotesRepository().addNote(</div><div class="line">        <span class="keyword">new</span> Note(findViewById(R.id.title).getText(),</div><div class="line">                 findViewById(R.id.description).getText()));</div><div class="line">    &#125;);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>16:47 In the spirit of TDD, we’re only going to write exactly as much as is needed to make the test pass. No more, no speculative codeing.</p>
+</blockquote>
+<p>Robolectric 也可以模擬各種 device condition，包括 SDK、螢幕大小/轉向 (qualifier) 等，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span> <span class="meta">@Config</span>(qualifiers = <span class="string">"xlarge-land"</span>)</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">onTablet_shouldDisplayMoreNotes</span><span class="params">()</span> </span>&#123; ... &#125;</div><div class="line"></div><div class="line"><span class="meta">@Test</span> <span class="meta">@Config</span>(sdk = JELLY_BEAN)</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">beforeKitKat_printingNote_shouldDisplayError</span><span class="params">()</span> </span>&#123; ... &#125;</div><div class="line"></div><div class="line"><span class="meta">@Test</span> <span class="meta">@Config</span>(sdk = ALL_SDKS)</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">persistNoteToSqlite</span><span class="params">()</span> </span>&#123; ... &#125;</div></pre></td></tr></table></figure>
+<p>在 Google 內部也有不少專案採用 Robolectric，包括 YouTube、Google Maps、Photos、Inbox、Google Drive、Google Play Movies &amp; TV 等，所以 Robolectric 是已經經過試煉 (battle-tested)。</p>
+<p><img src="/images/io17-tdd-android-with-atsl/robolectric-at-google.png" alt="Robolectric at Google"></p>
+<p>目前 Robolectric 已開始進行 Android CTS 相容性測試，進度已達 70%；猜想做這項測試跟 shadow 要模擬 hardware、external service、device condition 有關？</p>
+<p>為了讓 Robolectric 方便與 Android tool chain 整合，目前已支援 Android Studio、Gradle，另外與 <a href="https://bazel.build/" target="_blank" rel="external">Bazel</a> (Google 自己的 build system) 的整合也在進行中。</p>
+<p>最後 Christian 提醒，Robolectric 並非 one-size-fits-all 的方案，它很快，但它並非 100% 等同於 Android，所以應該審慎地 (judiciously) 使用它，涉及多個 activity 的測試不太算是 unit test，用 Espresso 就很合適，另外若涉及 multiple threads、synchronization 也不算是 unit test，都不適合用 Robolectric，尤其不要用 Robolectric 來測試與 Google Play 之類 service 間的互動，這需要更高層級的測試。</p>
+<h2 id="Android-Test-Orchestrator"><a href="#Android-Test-Orchestrator" class="headerlink" title="Android Test Orchestrator"></a>Android Test Orchestrator</h2><p>假設已經寫了許多 unit test，接下來就可以寫些 integration test 來確保那些 unit 整合在一起也沒問題，尤其是與真實 Android 環境的互動，這一類的 test 通常被稱做 instrumented test。</p>
+<p>要執行 instrumented test，首先用 <code>adb install</code> 安裝 app APK 與 test APK (內含 <code>AndroidJUnitRunner</code>、test case 與 manifest)，再透過 <code>am instrument</code> 開始進行測試，app APK 與 test APK 會執行在同一個 process 裡。</p>
+<p><img src="/images/io17-tdd-android-with-atsl/instrumentation-testing-flow.png" alt="Instrumentation Testing Flow"></p>
+<p>過程中整個 Android stack 的不同層級都參與其中，這類測試的好處是 high fidelity，但代價是 slow 與 flaky。<a href="https://github.com/slinzner" target="_blank" rel="external">Stephan Linzner</a> 接著說明 instrumentation 原理、大量測試可能引發的問題，最後再提出 Google 的解決方案。</p>
+<p><code>&lt;instrumentation&gt;</code> 在 manifest 裡是頂層的 tag，這代表著它是 Android framework 很深層的一塊，能夠控制 activity 的 lifecycle。就這點而言，instrumentation 顯然是注入 test runner 的絕佳位置 (interception point)，也之所以 <code>AndroidJUnitRunner</code> 就是個 instrumentation (繼承 <a href="https://developer.android.com/reference/android/app/Instrumentation.html" target="_blank" rel="external"><code>android.app.Instrumentation</code></a>)。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http:/schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">package</span>=<span class="string">"android.support.test.testapp.tests"</span> &gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">instrumentation</span></span></div><div class="line">        <span class="attr">android:name</span>=<span class="string">"android.support.test.runner.AndroidJUnitRunner"</span></div><div class="line">        <span class="attr">android:targetPackage</span>=<span class="string">"android.support.teset.tesetapp"</span> /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>進一步來看 <code>am instrument</code> 背後發生的事，它會透過 activity manager 來啟動 instrumentation - 呼叫 instrumentation 的 <code>onCreate()</code>，也就是 <code>AndroidJUnitRunner.onCreate()</code>，接著 test runner 會蒐集符合條件的測試、逐一執行測試、最後統一回報測試結果。</p>
+<p><img src="/images/io17-tdd-android-with-atsl/ajur-testing-flow.png" alt="AndroidJUnitRunner Testing Flow"></p>
+<p>由於 <code>AndroidJUnitRunner</code> 與受測的 app 執行在同一個 process，如果在一次 instrumentation invocation (<code>am instrument</code>) 裡執行多個 test，可能會引發一些問題：</p>
+<ul>
+<li>Shared State - 在 memory/disk 裡逐步累積 (build up) 的 state，可能導致沒理由的測試失敗或無法預期的狀況。</li>
+<li>Crashes - 因為上面 shared state 的關係，可能在未來的某個時間點突然造成 crash。更糟的是，因為整個 process 跟著結束，後續的 test 也就不會執行。</li>
+<li>Debugging - 一次執行大量的測試，<code>logcat</code> 的輸出會過於冗長，事後要從 log 找問題也不容易。</li>
+</ul>
+<p>在 Google 內部，每天有無數個 instrumented test 要執行，所以 Google 自己也面臨相同的挑戰。針對這些問題，Google 採取一次 instrumentation invocation 只執行一個 test 的策略 - 用 Android Test Orchestrator 把所有的 instrumented test 隔離開來。概念上像是用個別的 <code>am instrument</code> 執行不同的 test：</p>
+<p><img src="/images/io17-tdd-android-with-atsl/test-execution-in-isolation.png" alt="Test Execution in Isolation"></p>
+<p>這也意謂著，在 instrumented test 裡，JUnit 4 的 <code>@BeforeClass</code>/<code>@AfterClass</code> 是不鼓勵使用的，效果等同於 <code>@Before</code>/<code>@After</code>。</p>
+<p>這解決了上述 shared state、crashes、debugging 的問題，因為它會在每個 test 前做 <code>pm clear</code> (no shared state)，若發生 crash 不會影響後續的 test (isolated crash)，蒐集到的 debug information 也是針對特定的 test (isolated debugging)。</p>
+<p>Android Test Orchestrator 在安裝完 app APK 與 test APK 後 (一樣執行在同一個 process)，會加裝 orchestrator service APK (執行在另一個 process)、執行 orchestrator 的 intrumentation (<code>adb shell am instrument orchestrator</code>)，然後執行在背景的 orchestrator 就會在 device 上用 <code>AndroidJUnitRunner</code> 蒐集測試、用個別的 instrumentation invocation 執行不同的 test。</p>
+<p><img src="/images/io17-tdd-android-with-atsl/orchestrator-testing-flow.png" alt="Orchestrator Testing Flow"></p>
+<p>預計下一版 ATSL 就會有 Andorid Test Orchestrator 可用，之後也會整合進 Android Studio、Gradle 與 <a href="https://firebase.google.com/docs/test-lab/" target="_blank" rel="external">Firebase Test Lab</a>。</p>
+<h2 id="Synchronization-Guarantees"><a href="#Synchronization-Guarantees" class="headerlink" title="Synchronization Guarantees"></a>Synchronization Guarantees</h2><p>Espresso API 因為簡單，很適合做 UI test 的 TDD prototyping。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">onView(Matcher)</div><div class="line">    .perform(ViewAction)</div><div class="line">    .check(ViewAssertion)</div></pre></td></tr></table></figure>
+<p>其中最重要的是 synchronization guarantees - 確保 test code 在 app 進入 idle 狀態時，才會開始找 view，然後進行 UI 的操作或檢查。</p>
+<p><img src="/images/io17-tdd-android-with-atsl/espresso-api-flow.png" alt="Life Of An Espresso Test"></p>
+<p>為了實現這項承諾，Espresso 會先等 message queue 在一段合理的時間內都沒有其他 message、所有 idling resource 都回報 idle、也沒有任何 <a href="https://developer.android.com/reference/android/os/AsyncTask.html" target="_blank" rel="external"><code>AsyncTask</code></a> 在執行時，才往下找 view，然後執行 <a href="https://developer.android.com/reference/android/support/test/espresso/ViewAction.html" target="_blank" rel="external">view action</a>，或是檢查 <a href="https://developer.android.com/reference/android/support/test/espresso/ViewAssertion.html" target="_blank" rel="external">view assertion</a>。其中 <code>onView()</code> 只是建立 <a href="https://developer.android.com/reference/android/support/test/espresso/ViewInteraction.html" target="_blank" rel="external">view interaction</a>，找 view 的動作是發生在確認 idle/stable 後，以及操作/檢查之前。</p>
+<p>回顧一開始的 large E2E/UI test，其中 <code>perform()</code> 跟 <code>check()</code> 都是 synchronization guarantees 會作用的地方。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span> <span class="meta">@LargeTest</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addNoteToNotesList</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">// Click on the add note button</span></div><div class="line">    onView(withId(R.id.add_note)).perform(click());</div><div class="line"></div><div class="line">    <span class="comment">// Add note title and description</span></div><div class="line">    onView(withId(R.id.title)).perform(typeText(<span class="string">"More"</span>));</div><div class="line">    onView(withId(R.id.description)).perform(typeText(<span class="string">"Caffeination"</span>));</div><div class="line"></div><div class="line">    <span class="comment">// Save the note</span></div><div class="line">    onView(withId(R.id.add_note)).perform(click());</div><div class="line"></div><div class="line">    <span class="comment">// Verify note is displayed on screen</span></div><div class="line">    onView(withItemText(<span class="string">"Caffeination"</span>)).check(matches(isDisplayed()));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Medium-Integration-Test"><a href="#Medium-Integration-Test" class="headerlink" title="Medium / Integration Test"></a>Medium / Integration Test</h2><p>雖然橫跨多個 activity 的 large E2E test 可以覆蓋很多的 (production) code，但速度較慢、涉及的面向較廣，跟 TDD 快速的迭代並不是那麼搭，所以 medium-sized test 把焦點放在單一個 UI component (例如 view、fragment 或 activity)，實現測試金字塔中間的 integration test。</p>
+<blockquote>
+<p>32:22 So until now, we wrote a large end-to-end test that gives us a lot of confidence because it touches upon a lot of your code in your app, which is great for large end-to-end tests, but it’s not so great for an iterative test-driven development cycle.</p>
+</blockquote>
+<p>這裡以 activity/intent 做為分割的單位/界線，分別為每個 activity 寫不同的 isolated test。左側是筆記清單的畫面 (<code>NotesListActivity</code>)，右側是新增筆記的畫面 (<code>AddNoteActivity</code>)。</p>
+<p><img src="/images/io17-tdd-android-with-atsl/intent-boundaries.png" alt="Intent Boundaries"></p>
+<p>(這裡假設之前提到的 cloud storage 已經納入實作，所以 large E2E test 會存取真正的 server)</p>
+<p>就左側筆記清單的 activity 而言，可以透過 <a href="https://google.github.io/android-testing-support-library/docs/espresso/intents/" target="_blank" rel="external">Espresso Intents</a> 安排特定的 activity result，這樣就不用透過 <code>AddNoteActivity</code> 來新增筆記。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">intending(IntentMatcher)</div><div class="line">    .respondWith(ActivityResult);</div></pre></td></tr></table></figure>
+<p>(或許是為了方便說明，所以講者才強調 <code>NotesListActivity</code> 與 <code>AddNoteActivity</code> 之間是透過 intent 在溝通，不過在這之前所有的範例都比較偏向由 <code>AddNoteActivity</code> 將新的筆記儲存到 repository，畫面切回 <code>NotesListActivity</code> 時再從 repository 讀取新的清單)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@MediumTest</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addNoteToNotesList</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">// Setup Intent stubbing using Espresso Intents</span></div><div class="line">    intending(hasComponent(<span class="string">"android.support.test.testapp.AddNoteActivity"</span>)</div><div class="line">        .respondWith(stubbedActivityResult));</div><div class="line"></div><div class="line">    <span class="comment">// Click on the add note button</span></div><div class="line">    onView(withId(R.id.add_note)).perform(click());</div><div class="line"></div><div class="line">    <span class="comment">// Verify note is displayed on screen</span></div><div class="line">    onView(withItemText(<span class="string">"Caffeination"</span>)).check(matches(isDisplayed()));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>就右側新增筆記的 activity 而言，可以利用 hermetic repository 避開要直接存取 server 的問題，因為網路、server 都可能出狀況而影響到測試，而這些都不在控制範圍內。搭配 hermetic testing，不僅可以加快測試速度，也可以消除 flakiness。</p>
+<blockquote>
+<p>35:02 So th main point here is that we no longer use the real server. Instead, we set up a hermetic repository. Now, there’s many different ways of you to do this, and this is just one way. So then you can use this hermetic repository in order to verify that your note is actually saved without ever leaving the context of your app or hitting the network.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@MediumTest</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addNote</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">// Add note title and description</span></div><div class="line">    onView(withId(R.id.title)).perform(typeText(<span class="string">"More"</span>));</div><div class="line">    onView(withId(R.id.description)).perform(typeText(<span class="string">"Caffeination"</span>));</div><div class="line"></div><div class="line">    <span class="comment">// Save the note</span></div><div class="line">    onView(withId(R.id.add_note)).perform(click());</div><div class="line"></div><div class="line">    <span class="comment">// Setup hermetic repo</span></div><div class="line">    NotesRepository repo = Injector.getNotesRepository();</div><div class="line"></div><div class="line">    <span class="comment">// Make assertions on the results based on a hermetic environment</span></div><div class="line">    assertThat(repo.getNotes())</div><div class="line">        .containsExactly(<span class="keyword">new</span> Note(<span class="string">"More"</span>, <span class="string">"Caffeination"</span>))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>從一個 large E2E test 衍生出兩個更快、更穩定的 medium integration test，雖然 E2E test 與 integration test 有著相同的 code coverage (嚴格來說 E2E test 會比較多)，但這也就是為什麼測試金字塔中 integration test 的數量會比 E2E test 多的關係。</p>
+<blockquote>
+<p>35:29 You have two smaller tests that are way more reliable and run much faster. But at the same time, you maintain the same amount of test coverage as your large end-to-end test. And this is why we want to have more of these smaller isolated tests compared to the large end-to-end tests we showed before.</p>
+</blockquote>
+<h2 id="Multiprocess-Espresso"><a href="#Multiprocess-Espresso" class="headerlink" title="Multiprocess Espresso"></a>Multiprocess Espresso</h2><p>隨著 app 的演進，可能會有要把 Android component 執行在不同 process 的需求，若是遇到某些 UI component 執行在不同的 process，在 <a href="https://en.wikipedia.org/wiki/Android_O" target="_blank" rel="external">Android O</a> 之前是無法用 Espresso 測試的。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">package</span>=<span class="string">"android.support.test.multiprocess.testapp"</span>&gt;</span></div><div class="line">    ...</div><div class="line">    <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".NotesActivity"</span> /&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".AddNoteActivity"</span></span></div><div class="line">              <span class="attr">android:process</span>=<span class="string">":addNote"</span>&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div><div class="line">    ...</div><div class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>雖然 Android O 的 <code>&lt;instrument&gt;</code> 開始支援 <code>android:targetProcess</code> 這個 attribute，但目前的 Espresso 無法支援跨多個 process 的測試，甚至不知道有另一個 process 的存在，所以無法承諾 synchronization guarantees。</p>
+<p>目前 Google 自己就有遇到這樣的問題，所以提出 Multiprocess Espresso，不需要改變寫法，Espresso 就會自動協調多個 process，確保 synchronization guarantees。</p>
+<p><img src="/images/io17-tdd-android-with-atsl/multiprocess-espresso-arch.png" alt="Multi Process Espresso Architecture"></p>
+<p>這項功能也將加入下一版的 ATSL。</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>這個場次說明了如何將不同的測試工具 - ATSL、Espresso、Robolectric 應用在測試金字塔中不同的層級。想瞭解更多關於 Android Testing，可以善加利用下面這些資源：</p>
+<ul>
+<li><a href="https://codelabs.developers.google.com/codelabs/android-testing/index.html" target="_blank" rel="external">Android Testing Codelab</a></li>
+<li><a href="https://github.com/googlesamples/android-testing" target="_blank" rel="external">googlesamples/android-testing - GitHub</a></li>
+<li><a href="https://developer.android.com/training/testing/index.html" target="_blank" rel="external">Testing Apps on Android | Android Developers</a></li>
+</ul>
+<p>Happy Testing :)</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag"># android</a>
+          
+            <a href="/tags/unit-testing/" rel="tag"># unit-testing</a>
+          
+            <a href="/tags/test-automation/" rel="tag"># test-automation</a>
+          
+            <a href="/tags/espresso/" rel="tag"># espresso</a>
+          
+            <a href="/tags/testing-pyramid/" rel="tag"># testing-pyramid</a>
+          
+            <a href="/tags/e2e-testing/" rel="tag"># e2e-testing</a>
+          
+            <a href="/tags/tdd/" rel="tag"># tdd</a>
+          
+            <a href="/tags/robolectric/" rel="tag"># robolectric</a>
+          
+            <a href="/tags/hermetic-testing/" rel="tag"># hermetic-testing</a>
+          
+            <a href="/tags/integration-testing/" rel="tag"># integration-testing</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/07/run-on-specific-devices-cat/" rel="next" title="只在某些裝置上執行測試 (connectedAndroidTest)">
+                <i class="fa fa-chevron-left"></i> 只在某些裝置上執行測試 (connectedAndroidTest)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/10/python-and-automated-ui-testing/" rel="prev" title="Python 與 UI 自動化測試">
+                Python 與 UI 自動化測試 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5847635a985a11dc" async = "async" ></script>
+</div>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://en.gravatar.com/userimage/7327382/909030095f272d9b27157d5419d34d50.jpeg"
+               alt="Jeremy Kao" />
+          <p class="site-author-name" itemprop="name">Jeremy Kao</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最恐怖的事情就是－比你優秀的人，比你還努力！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">文章</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/imsardine" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/jeremy.kao.tw" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook-official"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/imsardine" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/jeremykao" target="_blank" title="LinkedIn">
+                  
+                    <i class="fa fa-fw fa-linkedin-square"></i>
+                  
+                  LinkedIn
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/113911398965423340908" target="_blank" title="Google+">
+                  
+                    <i class="fa fa-fw fa-google-plus"></i>
+                  
+                  Google+
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://imsardine.github.io/dev-notes/" target="_blank" title="DevNotes">
+                  
+                    <i class="fa fa-fw fa-keyboard"></i>
+                  
+                  DevNotes
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://imsardine.github.io/life-notes/" target="_blank" title="LifeNotes">
+                  
+                    <i class="fa fa-fw fa-pagelines"></i>
+                  
+                  LifeNotes
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Mobile-Ninjas"><span class="nav-number">1.</span> <span class="nav-text">Mobile Ninjas</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#測試金字塔"><span class="nav-number">2.</span> <span class="nav-text">測試金字塔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TDD-Workflow"><span class="nav-number">3.</span> <span class="nav-text">TDD Workflow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Larget-E2E-UI-Test"><span class="nav-number">4.</span> <span class="nav-text">Larget E2E / UI Test</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Small-Unit-Test"><span class="nav-number">5.</span> <span class="nav-text">Small / Unit Test</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Robolectric"><span class="nav-number">6.</span> <span class="nav-text">Robolectric</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-Test-Orchestrator"><span class="nav-number">7.</span> <span class="nav-text">Android Test Orchestrator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Synchronization-Guarantees"><span class="nav-number">8.</span> <span class="nav-text">Synchronization Guarantees</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Medium-Integration-Test"><span class="nav-number">9.</span> <span class="nav-text">Medium / Integration Test</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Multiprocess-Espresso"><span class="nav-number">10.</span> <span class="nav-text">Multiprocess Espresso</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#結論"><span class="nav-number">11.</span> <span class="nav-text">結論</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeremy Kao</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://imsardine-github-io.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://imsardine.github.io/2017/06/04/io17-tdd-android-with-atsl/';
+          this.page.identifier = '2017/06/04/io17-tdd-android-with-atsl/';
+          this.page.title = 'Test-Driven Development on Android with the Android Testing Support Library (Google I/O \'17)';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://imsardine-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,953 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-tw">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="SuaxtfLjU_TwfBADxP25lQkVUqcoR0VmJr_xc95-fFc" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="test-automation,gtac,audio," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="這個場次由 Dan Hislop 與 Alexander Brauckmann 跟大家分享在 Citrix 是如何進行音質測試 (audio quality testing)。 Citrix 有許多產品跟即時通訊 (real-time communication) 有關，音訊的品質對這類產品至關重要，所以在公司內部提出了一個通用方案，以解決不同產品在音質測試方面共通的問題。 一開始，Alex 問了">
+<meta name="keywords" content="test-automation,gtac,audio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="“Can you hear me?” - Surviving Audio Quality Testing">
+<meta property="og:url" content="http://imsardine.github.io/2016/11/22/gtac-2016-can-you-hear-me/index.html">
+<meta property="og:site_name" content="在電梯裡遇見雙胞胎">
+<meta property="og:description" content="這個場次由 Dan Hislop 與 Alexander Brauckmann 跟大家分享在 Citrix 是如何進行音質測試 (audio quality testing)。 Citrix 有許多產品跟即時通訊 (real-time communication) 有關，音訊的品質對這類產品至關重要，所以在公司內部提出了一個通用方案，以解決不同產品在音質測試方面共通的問題。 一開始，Alex 問了">
+<meta property="og:image" content="http://imsardine.github.io/images/gtac-2016-can-you-hear-me/scale-and-quality.png">
+<meta property="og:image" content="http://imsardine.github.io/images/gtac-2016-can-you-hear-me/challenges.png">
+<meta property="og:image" content="http://imsardine.github.io/images/gtac-2016-can-you-hear-me/pyramid.png">
+<meta property="og:image" content="http://imsardine.github.io/images/gtac-2016-can-you-hear-me/audio-quality-testing.png">
+<meta property="og:image" content="http://imsardine.github.io/images/gtac-2016-can-you-hear-me/audio-quality-testing2.png">
+<meta property="og:image" content="http://imsardine.github.io/images/gtac-2016-can-you-hear-me/aqa-architecture.png">
+<meta property="og:image" content="http://imsardine.github.io/images/gtac-2016-can-you-hear-me/polqa.png">
+<meta property="og:image" content="http://imsardine.github.io/images/gtac-2016-can-you-hear-me/audio-presence-testing.png">
+<meta property="og:image" content="http://imsardine.github.io/images/gtac-2016-can-you-hear-me/live-demo.png">
+<meta property="og:image" content="http://imsardine.github.io/images/gtac-2016-can-you-hear-me/aqa-dashboard.png">
+<meta property="og:image" content="http://imsardine.github.io/images/gtac-2016-can-you-hear-me/audio-quality-testing.png">
+<meta property="og:image" content="http://imsardine.github.io/images/gtac-2016-can-you-hear-me/languages-dialects.png">
+<meta property="og:updated_time" content="2019-01-16T17:24:40.413Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="“Can you hear me?” - Surviving Audio Quality Testing">
+<meta name="twitter:description" content="這個場次由 Dan Hislop 與 Alexander Brauckmann 跟大家分享在 Citrix 是如何進行音質測試 (audio quality testing)。 Citrix 有許多產品跟即時通訊 (real-time communication) 有關，音訊的品質對這類產品至關重要，所以在公司內部提出了一個通用方案，以解決不同產品在音質測試方面共通的問題。 一開始，Alex 問了">
+<meta name="twitter:image" content="http://imsardine.github.io/images/gtac-2016-can-you-hear-me/scale-and-quality.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://imsardine.github.io/2016/11/22/gtac-2016-can-you-hear-me/"/>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4844668015082917",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+  <title> “Can you hear me?” - Surviving Audio Quality Testing | 在電梯裡遇見雙胞胎 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">在電梯裡遇見雙胞胎</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">當你開始尋找，就已經在前往的路上</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://imsardine.github.io/2016/11/22/gtac-2016-can-you-hear-me/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeremy Kao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://en.gravatar.com/userimage/7327382/909030095f272d9b27157d5419d34d50.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="在電梯裡遇見雙胞胎">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                “Can you hear me?” - Surviving Audio Quality Testing
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2016-11-22T21:54:43+00:00">
+                2016-11-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/gtac/" itemprop="url" rel="index">
+                    <span itemprop="name">Google Test Automation Conference (GTAC)</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/gtac/2016/" itemprop="url" rel="index">
+                    <span itemprop="name">2016</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/11/22/gtac-2016-can-you-hear-me/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/11/22/gtac-2016-can-you-hear-me/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>這個場次由 <a href="https://www.linkedin.com/in/dan-hislop-075b6315" target="_blank" rel="external">Dan Hislop</a> 與 Alexander Brauckmann 跟大家分享在 <a href="https://www.citrix.com/" target="_blank" rel="external">Citrix</a> 是如何進行音質測試 (audio quality testing)。</p>
+<p>Citrix 有許多產品跟即時通訊 (real-time communication) 有關，音訊的品質對這類產品至關重要，所以在公司內部提出了一個通用方案，以解決不同產品在音質測試方面共通的問題。</p>
+<p>一開始，Alex 問了一句 Can you hear me? 真是絕妙的開場 :)</p>
+<a id="more"></a>
+<h2 id="音訊測試的挑戰"><a href="#音訊測試的挑戰" class="headerlink" title="音訊測試的挑戰"></a>音訊測試的挑戰</h2><p>Citrix GoTo 系列產品每個月要處理的音訊長達 14 億分鐘 (audio minutes)，在音訊處理量不斷成長的同時，也努力從不同地方著手讓音訊相關的客訴 (customer escalation) 減少。</p>
+<p><img src="/images/gtac-2016-can-you-hear-me/scale-and-quality.png" alt="問題的規模與品質提昇"><br>(圖片來源：<a href="https://www.youtube.com/watch?v=2yN53k9jz3U&amp;t=4h54m8s" target="_blank" rel="external">Google Test Automation Conference</a>)</p>
+<p>沒有聲音對這類產品是個大忌 (deal breaker)，可以想見音訊測試的重要性。雖然 Citrix 內部有一些音訊的專家，但這些人也都只有兩隻耳朵，所以要想辦法克隆 (clone) 他們的專業，並<strong>整合進自動化測試，讓許多非專業人士也可以利用</strong>。</p>
+<p>手動測試音質除了耗時之外，<strong>最大的問題是對音質的判斷是<em>主觀 (subjective)</em> 的，透過自動化，可以讓這件事變得客觀 (objective) 且可重複執行 (repeatable)</strong>。</p>
+<p><img src="/images/gtac-2016-can-you-hear-me/challenges.png" alt="音訊測試的挑戰"><br>(圖片來源：<a href="https://www.youtube.com/watch?v=2yN53k9jz3U&amp;t=4h54m8s" target="_blank" rel="external">Google Test Automation Conference</a>)</p>
+<h2 id="測試金字塔"><a href="#測試金字塔" class="headerlink" title="測試金字塔"></a>測試金字塔</h2><p>關於音訊的測試，分為 3 個層次，一樣可以用金字塔來表達－越上層越難自動化，越需要音訊方面的專業。</p>
+<p><img src="/images/gtac-2016-can-you-hear-me/pyramid.png" alt="音質測試金字塔"><br>(圖片來源：<a href="https://www.youtube.com/watch?v=2yN53k9jz3U&amp;t=4h54m8s" target="_blank" rel="external">Google Test Automation Conference</a>)</p>
+<p>Dan 以水管工程 (plumbing) 類比，由下往上逐層說明：</p>
+<h3 id="Audio-Functionality"><a href="#Audio-Functionality" class="headerlink" title="Audio Functionality"></a>Audio Functionality</h3><p>指<em>基本操作</em>的測試。例如按下靜音鍵 (mute) 會變紅燈，取消靜音 (unmute) 則會變綠燈，但聲音是不是就真的不會傳到另一端，不是這個層級要關心的。</p>
+<p>以水管工程類比，假設要從房子外面接水管進到屋內的水龍頭，這裡只是檢查管子是否有接好，並沒有真的打開水閥。</p>
+<h3 id="Audio-Presence"><a href="#Audio-Presence" class="headerlink" title="Audio Presence"></a>Audio Presence</h3><p>指<em>有沒有音訊</em>的測試。延續上面的例子，按下靜音鍵時，另一端聽不到聲音，反之取消靜音時，另一端就要能聽得到聲音，但聲音是否清楚，不是這個層級要關心的。</p>
+<p>以水管工程類比，這次真的打開水閥，檢查水是否能順利地從屋內的水龍頭流出來，不管水是否可以飲用。</p>
+<h3 id="Audio-Quality"><a href="#Audio-Quality" class="headerlink" title="Audio Quality"></a>Audio Quality</h3><p>指<em>音訊好壞</em>的測試，能否聽得清楚對方在講什麼。</p>
+<p>以水管工程類比，則是檢查水龍頭流出的水，是否可以飲用。</p>
+<h2 id="音質測試"><a href="#音質測試" class="headerlink" title="音質測試"></a>音質測試</h2><p>音質測試屬於 End-to-End (E2E) 層級，主要的流程如下：</p>
+<p><img src="/images/gtac-2016-can-you-hear-me/audio-quality-testing.png" alt="音質測試四個元素"><br>(圖片來源：<a href="https://www.youtube.com/watch?v=2yN53k9jz3U&amp;t=4h54m8s" target="_blank" rel="external">Google Test Automation Conference</a>)</p>
+<ol>
+<li>準備數個話質清析的音訊檔，以確保不同語音 (voice) 都有不錯的效果。</li>
+<li>為發話端 (client 1) 安排一個假的麥克風 (mock mic)，直接注入 (inject) 音訊檔，就像有人透過麥克風講話一樣。</li>
+<li>為受話端 (client 2) 安排一個假的揚聲器 (mock speaker)，直接收錄 (capture) 另一端傳來的音訊，就像有人戴著耳機在聽一樣，並將它存成另一個音訊檔。</li>
+<li>將步驟 2 輸入的音訊檔，及步驟 3 輸出的音訊檔，一起丟給後端的 scoring server 評分比較，就能知道輸出音訊的品質。</li>
+</ol>
+<h2 id="AQA-Service"><a href="#AQA-Service" class="headerlink" title="AQA Service"></a>AQA Service</h2><p>上述的 scoring server，指的就是內部的 Audio Quality Analysis (AQA) Service，提供不同的 API，方便現有的自動化測試直接整合－上傳音訊檔，然後取得評分，以決定測試成功或失敗。</p>
+<p><img src="/images/gtac-2016-can-you-hear-me/audio-quality-testing2.png" alt="音質測試四個元素(細節)"><br>(圖片來源：<a href="https://www.youtube.com/watch?v=2yN53k9jz3U&amp;t=4h54m8s" target="_blank" rel="external">Google Test Automation Conference</a>)</p>
+<p>其中 <a href="https://en.wikipedia.org/wiki/POLQA" target="_blank" rel="external">POLQA</a> (唸做 [po-ca] 波卡) 是第三方元件，用來做客觀的話質量測 (voice quality measurement)，但必須先取得授權 (license) 才行 (可以在這份<a href="http://www.polqa.info/licensees.html" target="_blank" rel="external">清單</a>裡找到 Citrix Online Germany GmbH)，由於 POLQA 授權會綁定某些機器，所以 AQA Service 也能一併處理掉授權上的限制。</p>
+<blockquote>
+<p>Consequently, any commercial entity that wishes to integrate a technology like POLQA within a product, and/or intends to use POLQA in their commercial enterprise must obtain a licensed right to use the essential patents held by the POLQA coalition. Except for educational use (e.g. non-commercial projects at universities) and contributions that yield at the development of new ITU-T standards, or amendments and revisions of P.863, <strong>any use of POLQA implies a license agreement</strong>.</p>
+<p><a href="http://www.polqa.info/information/faq.html" target="_blank" rel="external">Frequently Asked Questions - POLQA</a></p>
+</blockquote>
+<p>SQA Service 只含括各平台通用的部份，所以每個平台上還是得各自實作 mock mic/speaker，可惜這部份沒有提到細節。</p>
+<h3 id="架構"><a href="#架構" class="headerlink" title="架構"></a>架構</h3><p>AQA 的架構如下。以 Node.js 整合原生的 POLQA 演算法、不同的編解碼器 (codec)，包括 <a href="http://opus-codec.org/" target="_blank" rel="external">Opus</a>、<a href="http://lame.sourceforge.net/" target="_blank" rel="external">LAME</a> 等。</p>
+<p><img src="/images/gtac-2016-can-you-hear-me/aqa-architecture.png" alt="AQA Service 架構"><br>(圖片來源：<a href="https://www.youtube.com/watch?v=2yN53k9jz3U&amp;t=4h54m8s" target="_blank" rel="external">Google Test Automation Conference</a>)</p>
+<p>AQA 對外則提供 <a href="https://en.wikipedia.org/wiki/Representational_state_transfer" target="_blank" rel="external">REST</a> 與 <a href="http://www.grpc.io/" target="_blank" rel="external">GRPC</a> API 兩種介面，供不同的程式語言調用。API 的操作方式大致如下：</p>
+<ol>
+<li>建立 job。</li>
+<li>上傳兩個要做比較的音訊檔。(按照現場展示，上傳檔案發生在建立 job 之後)</li>
+<li>啟動 job 開始比較兩個音訊檔。</li>
+<li>取得評分結果。</li>
+</ol>
+<h3 id="POLQA"><a href="#POLQA" class="headerlink" title="POLQA"></a>POLQA</h3><p>在音質測試這個部份，AQA 採用 POLQA 演算法評定話質 (voice quality)。POLQA 的全名是 Perceptual Objective Listening Quality Assessment，強調感知 (perception) 與客觀性 (objectivity)。</p>
+<p><img src="/images/gtac-2016-can-you-hear-me/polqa.png" alt="AQA Service 架構"><br>(圖片來源：<a href="https://www.youtube.com/watch?v=2yN53k9jz3U&amp;t=4h54m8s" target="_blank" rel="external">Google Test Automation Conference</a>)</p>
+<p>提供兩組訊號 - 輸入 (Reference/Played-out Signal) 與輸出 (Degraded/Recorded Signal)，利用 POLQA 演算法就能求得一個介於 5 (好) 跟 1 (差) 之間的 <a href="https://en.wikipedia.org/wiki/Mean_opinion_score" target="_blank" rel="external">MOS (Mean Opinion Score)</a> 分數，代表一般人所感知到的話質。</p>
+<h3 id="Audio-Presence-Testing"><a href="#Audio-Presence-Testing" class="headerlink" title="Audio Presence Testing"></a>Audio Presence Testing</h3><p>除了音質測試，AQA 似乎也支援 Audio Presence 這層測試，雖然現場展示沒有提到。</p>
+<p><img src="/images/gtac-2016-can-you-hear-me/audio-presence-testing.png" alt="Audio Presence Testing"><br>(圖片來源：<a href="https://www.youtube.com/watch?v=2yN53k9jz3U&amp;t=4h54m8s" target="_blank" rel="external">Google Test Automation Conference</a>)</p>
+<p>可以細分為：</p>
+<ul>
+<li>Frequency Analysis - 能識別出同時間在講話的不同人 (頻率不同)，可以驗證某個人的聲音是否有被播放出來。</li>
+<li>Speech Presence - 能識別出哪些聲音是語音 (speech)。</li>
+<li>Amplitude Analysis - 可以檢查某個的人聲音不會太大或太小。</li>
+</ul>
+<h3 id="現場展示"><a href="#現場展示" class="headerlink" title="現場展示"></a>現場展示</h3><p><img src="/images/gtac-2016-can-you-hear-me/live-demo.png" alt="Audio Presence Testing"><br>(圖片來源：<a href="https://www.youtube.com/watch?v=2yN53k9jz3U&amp;t=4h54m8s" target="_blank" rel="external">Google Test Automation Conference</a>)</p>
+<p>下面是測試在 5% 掉封包 (packet loss) 狀況下的音質，並驗證 MOS 分數要在 4.0 以上：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> AQAServiceClient.aqaservice <span class="keyword">as</span> aqa</div><div class="line"></div><div class="line">url = <span class="string">"http://10.39.199.14:8080"</span></div><div class="line">serviceClient = aqa.AQAServiceClient(url)</div><div class="line"></div><div class="line"><span class="comment"># ...</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_aqaserviceclient_polqa_5loss</span><span class="params">()</span>:</span></div><div class="line">    <span class="comment"># create job</span></div><div class="line">    job = serviceClient.createPolqaJob()</div><div class="line"></div><div class="line">    <span class="comment"># add files</span></div><div class="line">    job.setReferenceFile(<span class="string">"English_Female1_1.wav"</span>)</div><div class="line">    job.setDegradedFile(<span class="string">"English_Female1_1-0-from-Win-7-Reference-to-Win-10-Laptop_5loss.wav"</span>)</div><div class="line"></div><div class="line">    <span class="comment"># add tags</span></div><div class="line">    job.addTag(<span class="string">"gtacDemo"</span>)</div><div class="line">    job.addTag(<span class="string">"original"</span>)</div><div class="line"></div><div class="line">    <span class="comment"># start job</span></div><div class="line">    evaluation = job.start(&#123;&#125;)</div><div class="line"></div><div class="line">    <span class="comment"># evaluation state. Sync</span></div><div class="line">    evaluationState = evaluation.getState()</div><div class="line">    <span class="keyword">assert</span> evaluationState.getMfMOSLQO() &gt; <span class="number">4.0</span></div></pre></td></tr></table></figure>
+<p>AQA 也提供有儀表板 (dashboard) 可以追蹤歷次的測試結果：</p>
+<p><img src="/images/gtac-2016-can-you-hear-me/aqa-dashboard.png" alt="Audio Presence Testing"><br>(圖片來源：<a href="https://www.youtube.com/watch?v=2yN53k9jz3U&amp;t=4h54m8s" target="_blank" rel="external">Google Test Automation Conference</a>)</p>
+<h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>雖然說，音質測試需要音訊方面的專家，但即便是 Ctrix 自己最後也是找第三方 POLQA 合作，顯見音質檢測的技術門檻很高。</p>
+<h3 id="話質測試"><a href="#話質測試" class="headerlink" title="話質測試"></a>話質測試</h3><p>這次分享的內容，與其說是音質測試，更確切地說是話質測試 (voice quality testing)，在<a href="http://www.polqa.info/information/faq.html" target="_blank" rel="external">官方 FAQ</a> 裡是這麼定位 POLQA 的：</p>
+<blockquote>
+<p>POLQA®, or “Perceptual Objective Listening Quality Analysis” - is the <strong>next-generation voice quality testing standard</strong> for fixed, mobile and IP-based networks that was adopted in 2011 as ITU-T Recommendation P.863 and successor to P.862/PESQ.</p>
+</blockquote>
+<p>事實上，在 POLQA 首頁跟 FAQ 裡完全沒有用到 <em>audio</em> 這個字，但 <em>voice</em> 跟 <em>speech</em> 倒是被反覆被提到很多次。再加上這份<a href="http://sevana.biz/pesq-polqa-aqua/" target="_blank" rel="external">比較表</a>明確點出 POLQA 在 Music 這個項目缺席，POLQA 似乎真的不適合應用音樂的領域。</p>
+<p>雖然上面那份比較表提到 <a href="http://sevana.biz/products/aqua/technology/" target="_blank" rel="external">AQuA</a> 有支援 Music 這個項目，但感覺就像 POLQA 一樣，不是一個開放的標準，細節不是一般人可以碰觸得到的，授權費或許也相當可觀？</p>
+<blockquote>
+<p>No, POLQA is not open source and also there is no public source code available for download from the ITU-T website.</p>
+<p><a href="http://www.polqa.info/information/faq.html" target="_blank" rel="external">Frequently Asked Questions - POLQA</a></p>
+</blockquote>
+<h3 id="音質測試-音樂"><a href="#音質測試-音樂" class="headerlink" title="音質測試 (音樂)"></a>音質測試 (音樂)</h3><p>雖然這次的分享不適用於音樂的音質測試，但還是從 AQA Service 的設計得到了一些啟發，尤其是 mock mic 與 mock speaker 的部份，雖然沒有提到細節，但至少是可以研究的方向。</p>
+<p><img src="/images/gtac-2016-can-you-hear-me/audio-quality-testing.png" alt="音質測試四個元素"><br>(圖片來源：<a href="https://www.youtube.com/watch?v=2yN53k9jz3U&amp;t=4h54m8s" target="_blank" rel="external">Google Test Automation Conference</a>)</p>
+<p>在 Q&amp;A 階段有人問道「這樣的測試是否會受語言或方言影響？」</p>
+<p><img src="/images/gtac-2016-can-you-hear-me/languages-dialects.png" alt="語言/方言的影響"><br>(圖片來源：<a href="https://www.youtube.com/watch?v=2yN53k9jz3U&amp;t=4h54m8s" target="_blank" rel="external">Google Test Automation Conference</a>)</p>
+<p>Dan 提到背後的原理是<em>比對波形</em> (waveform)，所以就這個測試而言，跟採用的語言是無關的。或許音樂的音質測試也是如此，只要想辦法將輸出的音訊錄製下來，再跟原始音訊做波形比對即可？</p>
+<p>就錄制音訊的部份：</p>
+<ul>
+<li>從<a href="http://stackoverflow.com/questions/17676142/record-android-audio-output" target="_blank" rel="external">這個討論</a>看來，要直接錄製 Android 系統的音訊輸出 (audio output) 是辦不到的。</li>
+<li>可以利用 <code>MediaRecorder</code> <a href="https://developer.android.com/guide/topics/media/audio-capture.html" target="_blank" rel="external">直接從麥克風收錄 Android 播放出來的聲音</a>，但容易受到環境的影響。</li>
+<li>可以考慮用音源線將訊號從耳機孔導到電腦的音源輸入 (audio input)，再用電腦將音訊錄制下來，這樣就不會受到環境音的干擾，而且也不受平台的限制。</li>
+</ul>
+<p>就比較音訊的部份：</p>
+<ul>
+<li>要驗證是否有播放正確的歌曲，不管品質為何 (屬於金字塔 Audio Presence 的層級)，可以參考<a href="https://en.wikipedia.org/wiki/Acoustic_fingerprint" target="_blank" rel="external">聲學指紋</a> (acoustic fingerprint) 與 <a href="https://github.com/worldveil/dejavu" target="_blank" rel="external">worldveil/dejavu</a> (作者也說明了它<a href="http://willdrevo.com/fingerprinting-and-audio-recognition-with-python/" target="_blank" rel="external">背後的原理</a>)。</li>
+<li><a href="http://audiodiff.readthedocs.io/" target="_blank" rel="external">audiodiff</a> 可以比對兩個音訊檔。</li>
+<li><a href="http://pymedia.org/" target="_blank" rel="external">PyMedia</a> 可以解碼 MP3。</li>
+</ul>
+<p>上面都是一些初步的想法／發現，等之後有時間再深入研究…</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/test-automation/" rel="tag"># test-automation</a>
+          
+            <a href="/tags/gtac/" rel="tag"># gtac</a>
+          
+            <a href="/tags/audio/" rel="tag"># audio</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/19/hello-hexo/" rel="next" title="Hello, Hexo!">
+                <i class="fa fa-chevron-left"></i> Hello, Hexo!
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/01/appium-debugging-skills/" rel="prev" title="Appium 除錯的技巧">
+                Appium 除錯的技巧 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5847635a985a11dc" async = "async" ></script>
+</div>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://en.gravatar.com/userimage/7327382/909030095f272d9b27157d5419d34d50.jpeg"
+               alt="Jeremy Kao" />
+          <p class="site-author-name" itemprop="name">Jeremy Kao</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界上最恐怖的事情就是－比你優秀的人，比你還努力！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">文章</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/imsardine" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/jeremy.kao.tw" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook-official"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/imsardine" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/jeremykao" target="_blank" title="LinkedIn">
+                  
+                    <i class="fa fa-fw fa-linkedin-square"></i>
+                  
+                  LinkedIn
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/113911398965423340908" target="_blank" title="Google+">
+                  
+                    <i class="fa fa-fw fa-google-plus"></i>
+                  
+                  Google+
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://imsardine.github.io/dev-notes/" target="_blank" title="DevNotes">
+                  
+                    <i class="fa fa-fw fa-keyboard"></i>
+                  
+                  DevNotes
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://imsardine.github.io/life-notes/" target="_blank" title="LifeNotes">
+                  
+                    <i class="fa fa-fw fa-pagelines"></i>
+                  
+                  LifeNotes
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#音訊測試的挑戰"><span class="nav-number">1.</span> <span class="nav-text">音訊測試的挑戰</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#測試金字塔"><span class="nav-number">2.</span> <span class="nav-text">測試金字塔</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Audio-Functionality"><span class="nav-number">2.1.</span> <span class="nav-text">Audio Functionality</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Audio-Presence"><span class="nav-number">2.2.</span> <span class="nav-text">Audio Presence</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Audio-Quality"><span class="nav-number">2.3.</span> <span class="nav-text">Audio Quality</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#音質測試"><span class="nav-number">3.</span> <span class="nav-text">音質測試</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AQA-Service"><span class="nav-number">4.</span> <span class="nav-text">AQA Service</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#架構"><span class="nav-number">4.1.</span> <span class="nav-text">架構</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#POLQA"><span class="nav-number">4.2.</span> <span class="nav-text">POLQA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Audio-Presence-Testing"><span class="nav-number">4.3.</span> <span class="nav-text">Audio Presence Testing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#現場展示"><span class="nav-number">4.4.</span> <span class="nav-text">現場展示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#心得"><span class="nav-number">5.</span> <span class="nav-text">心得</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#話質測試"><span class="nav-number">5.1.</span> <span class="nav-text">話質測試</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#音質測試-音樂"><span class="nav-number">5.2.</span> <span class="nav-text">音質測試 (音樂)</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeremy Kao</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://imsardine-github-io.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://imsardine.github.io/2016/11/22/gtac-2016-can-you-hear-me/';
+          this.page.identifier = '2016/11/22/gtac-2016-can-you-hear-me/';
+          this.page.title = '“Can you hear me?” - Surviving Audio Quality Testing';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://imsardine-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
